@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+				width="306" height="163" layout="absolute"
+				>
+	<mx:Script>
+		<![CDATA[
+			import Pattern.PatternModel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Alert;
+			
+			import org.act.od.impl.model.*;
+			
+			private var fileName :String;
+			private var selectedPat:PatternModel;
+			[Bindable]public var mainApp:Object = null;
+			[Bindable]public var callbackFunction:Function;
+			
+			[Bindable]
+			public var cards:ArrayCollection = OrDesignerModelLocator.getInstance().getPmsArr();
+			
+			internal function onCancleHandle(event :MouseEvent) :void {
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function onConfirmHandle(event:MouseEvent) :void {
+				selectedPat = PatternModel(fn.selectedItem);
+				OrDesignerModelLocator.getInstance().setSelectedPat(selectedPat);
+				//this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+				PopUpManager.removePopUp(this);
+				callbackFunction.call(mainApp,fn.selectedItem);	
+			}
+			/*internal function confirm():void{
+				fileName = fn.text;
+				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+				PopUpManager.removePopUp(this);
+			}*/
+			public function getText():String{
+				return fileName;
+			}
+			public function setTitle(title:String):void{
+				this.title="Select property";
+				this.fn.setFocus();
+			}
+			public function setRenameTitle(title:String):void{
+				this.title=title;
+			}
+			public function setText(text:String):void{
+				this.fn.text = text;
+				this.fn.selectedIndex = 0;
+				this.fn.setFocus();
+			}
+			private function createHandler():void {
+				fn.selectedItem = cards[0];
+			}
+		]]>
+	</mx:Script>
+	 
+
+		
+	
+		<mx:HBox x="10" y="28" width="266" height="43">
+			<mx:Label text="Data Stream:"	/>
+			<mx:ComboBox id="fn" width="159" dataProvider="{cards}"
+						 creationComplete="createHandler()"/>
+		</mx:HBox>
+		
+	<mx:HRule x="0" y="79" width="316"/>
+	
+			
+	<mx:Button label="Confirm" x="64" y="89" click="onConfirmHandle(event)" />
+	<mx:Button label="Cancel" x="186" y="89" click="onCancleHandle(event)" />
+
+
+</mx:TitleWindow>

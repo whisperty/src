@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml" 
+			 editable="false" height="100%"
+			 >
+	<mx:Script>
+		<![CDATA[
+			import Pattern.AttributeModel;
+			import Pattern.PatternModel;
+			
+			import mx.binding.utils.*;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			
+			import org.act.od.impl.model.DataSourceViewModel;
+			import org.act.od.impl.model.OrDesignerModelLocator;
+			[Bindable]
+			private var datasrcViewModel :DataSourceViewModel;
+			private var patMod:PatternModel;
+			private var col:DataGridColumn;
+			private var readArr:ArrayCollection;
+			private var _textField:TextField;
+			public var myColumns:Array;
+			public var colMinWidth:int;
+			public function setDataGrid():void
+			{
+				datasrcViewModel = OrDesignerModelLocator.getInstance().getDataSourceViewModel();
+				patMod = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.getPatModel();
+				readArr = datasrcViewModel.datasource;
+				_textField = new TextField();
+				myColumns = new Array();
+				this.newGrid();    
+			}
+			public function newGrid():void
+			{
+				//Alert.show("newGrid");
+				colMinWidth = OrDesignerModelLocator.getInstance().getOrchestraDesigner().figureAttributeNav.width/patMod.attriNum;
+				for(var i:int = 0;i<patMod.attriNum;i++)
+				{
+					col = new DataGridColumn();
+					col.visible = true;
+					col.headerText = AttributeModel(patMod.attributes.items[i]).name;
+					col.dataField = AttributeModel(patMod.attributes.items[i]).name;
+					if(readArr == null)
+					{
+						if((col.headerText.length+2)*this.getStyle("fontSize") < colMinWidth)
+							col.width = colMinWidth;
+						else
+							col.width = (col.headerText.length+2)*this.getStyle("fontSize");
+					}
+					else
+					{
+						var width1:int = (col.headerText.length+2)*this.getStyle("fontSize");
+						var width2:int = autoSizeColWidth(col.dataField)+50;
+						col.width = max(width1,width2,colMinWidth);
+					}
+					myColumns.push(col);
+				}	
+				//Alert.show("newGrid Success");
+				//Alert.show("why");
+				this.columns = myColumns;
+				this.dataProvider = datasrcViewModel.datasource;
+				
+			}
+			public function autoSizeColWidth(colLabel:String):int
+			{ 
+				if(readArr == null)
+					return 100;
+				else
+				{
+					var minLen:int = 0;
+					for(var j:int = 0;j<readArr.length;j++)
+					{
+						var obj:Object = readArr.getItemAt(j);
+						_textField.text = obj[colLabel]?obj[colLabel]:"";
+						var line:TextLineMetrics = _textField.getLineMetrics(0);
+						if(line.width > minLen)
+							minLen = line.width;
+					}
+					return minLen;
+				}
+			}
+			public function max(i:int,j:int,k:int):int
+			{
+				var max:int = i>j?i:j;
+				max = max>k?max:k;
+				return max;
+			}
+		]]>
+	</mx:Script>
+		<!--<mx:DataGridColumn id="A1" sortable="false" headerText="IMSI" dataField="A1" editable="false" width="200"/>
+		<mx:DataGridColumn id="A2" sortable="false" headerText="event_type" dataField="A2" editable="false" width="200"/>
+		<mx:DataGridColumn id="A3" sortable="false" headerText="Duration" dataField="A3" editable="false" width="200"/>
+		<mx:DataGridColumn id="A4" sortable="false" headerText="MSISDN" dataField="A4" editable="false" width="200"/>
+		<mx:DataGridColumn id="A5" sortable="false" headerText="IMEI" dataField="A5" editable="false" width="200"/>
+		
+		<mx:DataGridColumn id="A6" sortable="false" headerText="MSISDN" dataField="A6" editable="false" width="200"/>
+		<mx:DataGridColumn id="A7" sortable="false" headerText="VLR" dataField="A7" editable="false" width="200"/>
+		<mx:DataGridColumn id="A8" sortable="false" headerText="cause" dataField="A8" editable="false" width="200"/>
+		<mx:DataGridColumn id="A9" sortable="false" headerText="HLR" dataField="A9" editable="false" width="200"/>
+		<mx:DataGridColumn id="A10" sortable="false" headerText="sour_lac" dataField="A10" editable="false" width="200"/>
+		
+		<mx:DataGridColumn id="A11" sortable="false" headerText="sour_ci" dataField="A11" editable="false" width="200"/>
+		<mx:DataGridColumn id="A12" sortable="false" headerText="State" dataField="A12" editable="false" width="200"/>
+		<mx:DataGridColumn id="A13" sortable="false" headerText="end_ci" dataField="A13" editable="false" width="200"/>
+		<mx:DataGridColumn id="A14" sortable="false" headerText="cause_ID" dataField="A14" editable="false" width="200"/>
+		<mx:DataGridColumn id="A15" sortable="false" headerText="LAC" dataField="A15" editable="false" width="200"/>
+		
+		<mx:DataGridColumn id="A16" sortable="false" headerText="dest_lac" dataField="A16" editable="false" width="200"/>
+		<mx:DataGridColumn id="A17" sortable="false" headerText="dest_ci" dataField="A17" editable="false" width="200"/>
+		<mx:DataGridColumn id="A18" sortable="false" headerText="oppo_num" dataField="A18" editable="false" width="200"/>
+		<mx:DataGridColumn id="A19" sortable="false" headerText="Send_Stamp" dataField="A19" editable="false" width="200"/>
+		<mx:DataGridColumn id="A20" sortable="false" headerText="Receive_Stamp" dataField="A20" editable="false" width="200"/>
+	
+	<mx:dataProvider>
+		{datasrcViewModel.datasource}
+	</mx:dataProvider>-->
+</mx:DataGrid>

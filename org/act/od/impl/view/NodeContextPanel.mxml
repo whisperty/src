@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns="org.act.od.impl.*" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:buttons="org.act.od.impl.figure.buttons.*"  width="46" height="80" verticalScrollPolicy="off" horizontalScrollPolicy="off" rollOut="this.currentState=null" styleName="Balloon" resizeEffect="{resize}" xmlns:view="org.act.od.impl.view.*">
+
+	<mx:Script>
+		<![CDATA[
+			import org.act.od.impl.events.LabelNodeEvent;
+			import org.act.od.impl.figure.buttons.GlowButton;
+			import mx.containers.Canvas;
+			import mx.controls.Button;
+			import mx.controls.TextInput;
+			
+			import mx.controls.Label;
+			import mx.effects.easing.Bounce;
+			import org.act.od.impl.other.Resource;
+			
+			protected var txNodeName:TextInput=new TextInput();
+			protected var glowbutton0:GlowButton=new GlowButton();
+			protected var glowbutton1:GlowButton=new GlowButton();
+			protected var glowbutton2:GlowButton=new GlowButton();
+			
+			
+//			protected var glowbutton0 :Glow=new Glow();
+//			protected var glowbutton1 :Glow=new Glow();
+//			protected var glowbutton2 :Glow=new Glow();
+		
+		
+			[Bindable]
+			public static var btn_remove :Class = Resource.getInstance().smallicons_btn_remove;
+	
+			[Bindable]
+			public static var btn_label :Class = Resource.getInstance().smallicons_btn_label;
+			
+			[Bindable]
+			public static var btn_link :Class = Resource.getInstance().smallicons_btn_link;
+			
+			[Bindable]
+			public static var balloon :Class = Resource.getInstance().smallicons_balloon;
+			
+			[Bindable]
+			public var nodeName:String;
+			
+			public function init():void{
+				glowbutton1.source=btn_remove;
+				glowbutton0.source=btn_label;
+				glowbutton2.source=btn_link;
+				glowbutton0.setStyle("glowColor","#000000");
+				glowbutton1.setStyle("glowColor","#000000");
+				glowbutton2.setStyle("glowColor","#000000");
+				glowbutton1.y=10;
+				glowbutton0.y=42;
+				glowbutton2.y=74;
+				glowbutton1.addEventListener(MouseEvent.CLICK,handleRemoveClick);
+				glowbutton0.addEventListener(MouseEvent.CLICK,handleLabelMeClick);
+				glowbutton2.addEventListener(MouseEvent.CLICK,handleLinkClick);
+				glowbutton1.setStyle("right","9");
+				glowbutton0.setStyle("right","9");
+				glowbutton2.setStyle("right","9");
+				this.addChild(glowbutton0);
+				this.addChild(glowbutton1);
+//				this.addChild(glowbutton2);
+				
+				txNodeName.selectionBeginIndex=1;
+				txNodeName.selectionEndIndex=0;
+			
+				this.setStyle("borderSkin", balloon);
+				
+			}
+			override public function stylesInitialized():void{
+				
+			}
+			public function resetAll():void{
+				this.removeAllChildren();
+				this.height=112;
+				this.width=46;
+				this.addChild(this.glowbutton0);
+				this.addChild(this.glowbutton1);
+				this.addChild(this.glowbutton2);
+			}
+			
+			private function handleRemoveClick(event:Event):void {
+				this.width=178;
+				this.removeChild(this.glowbutton1);
+				this.removeChild(this.glowbutton0);
+				this.removeChild(this.glowbutton2);
+				var label:Label=new Label();
+				label.text="Remove me?";
+				label.x=15;
+				label.y=20;
+				var button0:Button=new Button();
+				button0.x=5;
+				button0.y=50;
+				button0.width=47;
+				button0.label="Yes";
+				button0.addEventListener(MouseEvent.CLICK,handleRemove0Click);
+				var button1:Button=new Button();
+				button1.x=54;
+				button1.y=50;
+				button1.label="No";
+				button1.width=49;
+				button1.addEventListener(MouseEvent.CLICK,handleRemove1Click);
+				var canvas:Canvas=new Canvas();
+				canvas.x=27;
+				canvas.y=10;
+				canvas.width=109;
+				canvas.height=88;
+				canvas.addChild(label);
+				canvas.addChild(button0);
+				canvas.addChild(button1);
+				this.addChild(canvas);
+			}
+			
+			public function handleRemove0Click(event:MouseEvent):void{
+				this.dispatchEvent(new MouseEvent("removeNode"));
+			}
+			
+			public function handleRemove1Click(event:MouseEvent):void{
+				this.resetAll();
+			}
+			
+			public function handleLinkClick(event:MouseEvent):void{
+				this.dispatchEvent(new MouseEvent("createLink"));
+			}
+			
+			private function handleLabelMeClick(event:Event):void {
+				this.width=181;
+				this.height=109;
+				this.removeChild(this.glowbutton0);
+				this.removeChild(this.glowbutton1);
+				this.removeChild(this.glowbutton2);
+				txNodeName.x=10;
+				txNodeName.y=40;
+				txNodeName.text=this.nodeName;
+				txNodeName.addEventListener(KeyboardEvent.KEY_UP,handleTxNodeNameKeyUp);
+				txNodeName.addEventListener(FocusEvent.FOCUS_IN,handleTxNodeNameFocusIn);
+				this.addChild(txNodeName);
+				var ll:Label=new Label();
+				ll.text="Link label";
+				ll.x=11;
+				ll.y=9;
+				this.addChild(ll);
+				
+				
+				var button0:Button=new Button();
+				button0.label="OK";
+				button0.x=23.5;
+				button0.y=70;
+				button0.width=63;
+				button0.addEventListener(MouseEvent.CLICK,handleLabelButton0Click);
+				this.addChild(button0);
+				
+				
+				var button1:Button=new Button();
+				button1.label="Cancel";
+				button1.x=94;
+				button1.y=70;
+				button1.width=63;
+				this.addChild(button1);
+				button1.addEventListener(MouseEvent.CLICK,handleLabelButton1Click);
+			}
+			public function handleTxNodeNameFocusIn(event:FocusEvent):void{
+				this.txNodeName.drawFocus(false);
+			}
+			public function handleLabelButton0Click(event:MouseEvent):void{
+				this.dispatchEvent(new LabelNodeEvent(this.txNodeName.text));
+				this.resetAll();
+			}
+			public function handleLabelButton1Click(event:MouseEvent):void{
+				this.resetAll();
+			}
+			
+			
+			private function handleTxNodeNameKeyUp(event:KeyboardEvent):void {
+				if(event.keyCode == Keyboard.ESCAPE) {
+				} else if(event.keyCode == Keyboard.ENTER){
+					dispatchEvent(new LabelNodeEvent(this.txNodeName.text));
+					this.resetAll();
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:Metadata>
+		[Event(name="removeNode", type="flash.events.MouseEvent")]
+		[Event(name="linkNode", type="flash.events.MouseEvent")]
+	</mx:Metadata>
+	<mx:Resize id="resize" easingFunction="{Bounce.easeOut}"/>
+</mx:Canvas>

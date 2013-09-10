@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="20" horizontalScrollPolicy="off" verticalScrollPolicy="off" initialize="init()">
+
+	<mx:Script>
+		<![CDATA[
+			import org.act.od.impl.other.Resource; 
+			import org.act.od.impl.view.ToolPanel;
+        
+        [Bindable]
+        public var start :Class = Resource.getInstance().icon_tool_start;
+        
+        [Bindable]
+        public var end :Class = Resource.getInstance().icon_tool_end;
+        
+        [Bindable]
+        public var Switch :Class = Resource.getInstance().icon_tool_switch;
+        
+        [Bindable]
+        public var link :Class = Resource.getInstance().icon_tool_link;
+        
+        [Bindable]
+        public var activity :Class = Resource.getInstance().icon_tool_activity;
+        
+        [Bindable]
+        public var subProcess :Class = Resource.getInstance().icon_tool_subprocess;
+        
+        [Bindable]
+        public var email :Class = Resource.getInstance().icon_tool_email;
+        
+        [Bindable]
+        public var fax :Class = Resource.getInstance().icon_tool_fax;
+        
+        [Bindable]
+        public var pager :Class = Resource.getInstance().icon_tool_pager;
+        
+        [Bindable]
+        public var sms :Class = Resource.getInstance().icon_tool_sms;
+        
+        [Bindable]
+        public var voice :Class = Resource.getInstance().icon_tool_voice;
+        
+        [Bindable]
+        public var invoke :Class = Resource.getInstance().icon_tool_invoke;
+		
+		[Bindable]
+        public var receive :Class = Resource.getInstance().icon_tool_receive;
+        
+        [Bindable]
+        public var reply :Class = Resource.getInstance().icon_tool_reply;
+        
+        [Bindable]
+        public var wait :Class = Resource.getInstance().icon_tool_wait;
+		
+		[Bindable]
+        public var assign :Class = Resource.getInstance().icon_tool_assign;
+        
+        [Bindable]
+        private var iconClass :Class;
+        
+        [Bindable]
+        private var iconName :String;
+        
+        public function init() :void{
+        	this.iconName = lab.text;
+        	initToolPic(iconName);
+        }
+        
+        private function initToolPic(label :String) :void{
+			
+			if(label.localeCompare("DataStream") == 0) {
+				iconClass = start;
+			}
+			else if(label.localeCompare("End") == 0) {
+				iconClass = end;
+			}
+			else if (label.localeCompare("activity") == 0) {
+				iconClass = activity;
+			}
+			else if(label.localeCompare("Switch") == 0) {
+				iconClass = Switch;
+			}
+			else if(label.localeCompare("link") == 0) {
+				iconClass = link;
+			}
+			else if(label.localeCompare("DataSource") == 0) {
+				iconClass = subProcess;
+			}
+			else if(label.localeCompare("Email") == 0) {
+				iconClass = email;
+			}
+			else if(label.localeCompare("Fax") == 0) {
+				iconClass = fax;
+			}
+			else if(label.localeCompare("Pager") == 0) {
+				iconClass = pager;
+			}
+			else if(label.localeCompare("SMS") == 0) {
+				iconClass = sms;
+			}
+			else if(label.localeCompare("Voice") == 0) {
+				iconClass = voice;
+			}
+			else if(label.localeCompare("Invoke") == 0) {
+				iconClass = invoke;
+			}
+			else if(label.localeCompare("Receive") == 0) {
+				iconClass = receive;
+			}
+			else if(label.localeCompare("Reply") == 0) {
+				iconClass = reply;
+			}
+			else if(label.localeCompare("Wait") == 0) {
+				iconClass = wait;
+			}
+			else if(label.localeCompare("Assign") == 0) {
+				iconClass = assign;
+			}
+			else {
+				
+			}
+		}
+			
+		]]>
+	</mx:Script>
+
+	<mx:LinkButton id="btn" icon="{iconClass}" width="20" height="20" buttonMode="false" />
+
+    <mx:Label id="lab" text="{data.label}" textAlign="center" height="100%" buttonMode="true"/>
+    
+</mx:HBox>
+
+

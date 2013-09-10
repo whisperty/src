@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml"  >
+	
+	<mx:Metadata>
+		[Event(name = OrDesignerControl.SHOW_ATTRIBUTE, type = "org.act.od.impl.events.ShowAttributeEvent")]
+	</mx:Metadata>
+	
+	<mx:Script>
+		<![CDATA[
+		
+		]]>
+	</mx:Script>
+	
+	<mx:Label id="test"  text="nihaoma"/>
+	
+</mx:Box>

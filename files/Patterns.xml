@@ -1,0 +1,31 @@
+<patterns>
+	<pattern name="SMS" attriNum="19" description="">
+		<attribute name="IMSI" type="String" description=""/>
+		<attribute name="event_type" type="Num" description=""/>
+		<attribute name="duration" type="Num" description=""/>
+		<attribute name="MSISDN" type="String" description=""/>
+		<attribute name="IMEI" type="String" description=""/>
+		<attribute name="VLR" type="String" description=""/>
+		<attribute name="cause" type="Num" description=""/>
+		<attribute name="HLR" type="String" description=""/>
+		<attribute name="sour_lac" type="String" description=""/>
+		
+		<attribute name="sour_ci" type="String" description=""/>
+		<attribute name="state" type="Num" description=""/>
+		<attribute name="end_ci" type="String" description=""/>
+		<attribute name="cause_ID" type="Num" description=""/>
+		<attribute name="LAC" type="String" description=""/>
+		
+		<attribute name="dest_lac" type="String" description=""/>
+		<attribute name="dest_ci" type="String" description=""/>
+		<attribute name="oppo_num" type="Num" description=""/>
+		<attribute name="send_Stamp" type="String" description=""/>
+		<attribute name="receive_Stamp" type="String" description=""/>
+		
+	</pattern>
+	<pattern name="pattern1" attriNum="3" description="">
+		<attribute name="name1" type="String" description=""/>
+		<attribute name="name2" type="String" description=""/>
+		<attribute name="num" type="Num" description=""/>
+	</pattern>
+</patterns>

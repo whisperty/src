@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:v="component.*">
+	<mx:Script>
+		<![CDATA[
+			import Pattern.AttributeModel;
+			import Pattern.PatternModel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			public var pms:ArrayCollection;
+			[Bindable]
+			public var cos:ArrayCollection;
+			
+		]]>
+	</mx:Script>
+	
+	<mx:TabNavigator width="100%" height="100%" fontSize="15">
+		<v:UpdateDeletePattern label="更新/删除 模式"
+							pms="{pms}"/>
+		<v:AddPattern label="添加模式"
+					  pms="{pms}"/>
+		<v:UpdateDeleteOperator label="更新/删除 自定义算子" cos="{cos}"/>
+		<v:AddOperator label="添加自定义算子" cos="{cos}"/>
+	</mx:TabNavigator>
+</mx:VBox>

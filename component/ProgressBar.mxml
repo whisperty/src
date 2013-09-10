@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+				layout="vertical" 
+				verticalAlign = "middle"
+				showCloseButton="false">
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			private var timer:Timer;
+			private function init():void{
+				timer = new Timer(10);
+				timer.addEventListener(TimerEvent.TIMER,timer_timer);
+			}
+			private function timer_timer(evt:TimerEvent):void{
+				progressBar.setProgress(progressBar.value + 1,100);
+			}
+			private function progressBar_complete(evt:Event):void{
+				timer.stop();
+				PopUpManager.removePopUp(this)
+			}
+			public function playProgressBar():void{
+				progressBar.setProgress(0,100);
+				progressBar.scaleX = 1.0;
+				progressBar.scaleY =1.0;
+				progressBar.alpha = 1.0;
+				timer.start();
+			}
+		]]>
+	</mx:Script>
+	<mx:Parallel id="progressBar_completeEffect">
+		<mx:Fade alphaTo="0.0" />
+		<mx:Zoom zoomHeightTo = "0" />
+	</mx:Parallel>
+	<mx:ProgressBar id="progressBar"
+					complete = "progressBar_complete(event)"
+					completeEffect = "{progressBar_completeEffect}"
+					mode = "manual"
+					labelPlacement = "center"
+					width = "100%"
+					height = "60%"
+					label = "computing"
+					creationComplete = "init()" />
+</mx:TitleWindow>

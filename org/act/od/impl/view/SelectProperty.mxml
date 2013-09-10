@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+				layout="vertical" 
+				verticalAlign = "middle"
+				showCloseButton="false" initialize="init()">
+	<mx:Script>
+		<![CDATA[
+			import Pattern.PatternModel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.act.od.impl.events.LabelLinkEvent;
+			import org.act.od.impl.model.*;
+			
+			public var property:String;
+			public var operator:String;
+			public var value:String;
+			
+			[Bindable]
+			public var cards:ArrayCollection  = new ArrayCollection;
+			public function init() :void{
+				var selectedPatt:PatternModel = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.getPatModel();
+				for each (var newObj:Object in selectedPatt.attributes.items)
+				cards.addItem(newObj.name);
+			}
+			[Bindable]
+			public var operators:ArrayCollection = new ArrayCollection(
+				[ {label:">",data:1}, //这样的数组分配方式也是第一次见:) 经过分析才学习到:这里的"data"似乎是自定义的变量名,label是组件"label"
+					{label:"<", data:2}, 
+					{label:"==", data:3} ,
+					
+					{label:"!=",data:1}, //这样的数组分配方式也是第一次见:) 经过分析才学习到:这里的"data"似乎是自定义的变量名,label是组件"label"
+				]);
+			
+			internal function onCancleHandle(event :MouseEvent) :void {
+				PopUpManager.removePopUp(this);
+			}
+			
+			internal function onConfirmHandle(event :MouseEvent) :void {
+				this.currentState = null;
+				dispatchEvent(new LabelLinkEvent("Ceshi"));
+				property = pro.selectedLabel;
+				operator = op.selectedLabel;
+				value = val.text;
+				
+				//added by ty 20130703
+				var conditionExpr:String = property + " " + operator + " " + value;
+				OrDesignerModelLocator.getInstance().setSelectProperty(conditionExpr);
+				//Alert.show(property+operator+value);
+				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+				PopUpManager.removePopUp(this);
+			}
+			internal function confirm():void{
+				
+				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+				PopUpManager.removePopUp(this);
+			}
+			
+			public function setTitle(title:String):void{
+				this.title="Select property";
+				//this.fn.setFocus();
+			}
+			public function setRenameTitle(title:String):void{
+				this.title=title;
+			}
+			public function setText(text:String):void{
+				//this.fn.text = text;
+				//this.fn.selectedIndex = 0;
+				//this.fn.setFocus();
+			}
+		]]>
+	</mx:Script>
+	
+	
+	
+	
+	<mx:HBox x="10" y="28" height="33">
+		<mx:Label text="property: "	/>
+		<mx:ComboBox id="pro"  dataProvider="{cards}"  />
+		<mx:Label height="22" x="152" y="28" text="Bool Operator: "/>
+		<mx:ComboBox id="op" width="54" height="21" dataProvider="{operators}"/>
+		<mx:Label x="324" y="28" height="21" text="value: "/>
+		<mx:TextInput id="val" width="84"/>
+	</mx:HBox>
+	
+	<mx:HRule width="100%"/>
+	<mx:HBox width="100%" horizontalAlign="center" horizontalCenter="0">
+		<mx:Label width="35%" visible = "false"/>
+		<mx:Button label="Confirm"  click="onConfirmHandle(event)" />
+		<mx:Button label="Cancel" click="onCancleHandle(event)" />
+		<mx:Label width="35%" visible = "false"/>
+	</mx:HBox>
+</mx:TitleWindow>

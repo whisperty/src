@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	
+	xmlns:local="*" 
+	width="100%" height="100%"
+	
+	xmlns:designer="org.act.od.impl.view.*"
+ 	 creationComplete="application1_creationCompleteHandler(event)">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import org.act.od.impl.events.*;
+			import org.act.od.impl.model.*;
+			public var cur:Boolean;
+			[Bindable]
+			public var pms:ArrayCollection; 
+			[Bindable]
+			public var cos:ArrayCollection;
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var feNavModel :FigureEditorNavigatorModel = 
+					OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel();
+				if(cur == false)
+					var feModel :FigureEditorModel = feNavModel.addFigureEditorModel("File-9999");
+				
+				//2. active the figureEditorpage
+			 new FigureEditorNavigatorAppEvent(FigureEditorNavigatorAppEvent.ACTIVE_FIGUREEDITOR_PAGE,
+					{ fileID:"File-9999", filePath:"Examples/examples/Example.xml", 
+						fileName:"NetWork1", figureEditorModel:feModel }
+				).dispatch();
+				
+			}
+			
+		]]>
+	</mx:Script>
+ 	
+ 	
+	<designer:OrchestraDesigner id="ordesigner" pms="{pms}" cos="{cos}"/>
+
+</mx:Canvas>

@@ -1,0 +1,17 @@
+<operators>
+	<operator name="TupleSplit" descri="description1">
+		<para name="para1" descri="1st para"/>
+		<para name="para2" descri="1+1=2"/>
+		<output name="o1" descri="you need me"/>
+		<output name="o2" descri="the more the better"/>
+	</operator>
+	<operator name="GetPhoneNum" descri="description2">
+		<output name="o11" descri="one is enough"/>
+	</operator>
+	<operator name="GetTime" descri="descri3">
+	</operator>
+	<operator name="GetLacAndCi" descri="descri4">
+	</operator>
+	<operator name="TupleMerge" descri="descri5">
+	</operator>
+</operators>

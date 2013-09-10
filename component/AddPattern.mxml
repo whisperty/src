@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		<![CDATA[
+			import Pattern.AttributeModel;
+			import Pattern.PatternModel;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.ValidationResultEvent;
+			[Bindable]
+			public var pms:ArrayCollection;
+			[Bindable]
+			private var pm:PatternModel = new PatternModel();
+			private var vResult:ValidationResultEvent;
+			
+			private function addAttriHandler(event:MouseEvent):void
+			{
+				vResult = nameV.validate();
+				if(vResult.type != ValidationResultEvent.VALID)
+					return;
+				var attri:AttributeModel = new AttributeModel(attriName.text, String(attriType.selectedItem), attriDescri.text);
+				pm.addAttri(attri);
+			}
+			public function removeAttri(data:AttributeModel):void
+			{
+				pm.removeAttri(data);
+			}
+			private function savePatternHandler():void
+			{
+				pm.patternName = patternName.text;
+				pm.descri = patternDescri.text;
+				pms.addItem(pm);
+			}
+			
+			
+			
+		]]>
+	</mx:Script>
+	<mx:StringValidator id="nameV" source="{attriName}" property="text"/>
+	<mx:Spacer width="100%"/>
+	<mx:Form id="info">
+		<mx:FormItem label="模式操作">
+			<mx:HBox>
+				<mx:Button label="保存模式"  click="savePatternHandler()"/>
+			</mx:HBox>
+		</mx:FormItem>
+		
+		<mx:FormItem label="模式名称">
+			<mx:TextInput id="patternName"/>
+		</mx:FormItem>
+		<mx:FormItem label="模式描述">
+			<mx:TextInput id="patternDescri"/>
+		</mx:FormItem>
+		<mx:FormItem label="属性个数">
+			<mx:Label id="attriNum" text="{pm.attriNum}"/>
+		</mx:FormItem>
+		<mx:FormItem label="属性信息" >
+			<mx:DataGrid dataProvider="{pm.attributes.items}" editable="true">
+				<mx:columns>
+					<mx:DataGridColumn dataField="name" headerText="属性名称"/>
+					<mx:DataGridColumn dataField="type" headerText="属性类型"/>
+					<mx:DataGridColumn dataField="descri" headerText="属性描述"/>
+					<mx:DataGridColumn editable="false">
+						<mx:itemRenderer>
+							<mx:Component>
+								<mx:VBox>
+									<mx:Script>
+										<![CDATA[
+											import Pattern.AttributeModel;
+										]]>
+									</mx:Script>
+									<mx:Button label="Remove" click="outerDocument.removeAttri(data as AttributeModel);"/>
+								</mx:VBox>
+							</mx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:FormItem>
+		<mx:FormItem label="添加属性">
+			<mx:HBox>
+				<mx:Label text="属性名称"/>
+				<mx:TextInput id="attriName"/>
+			</mx:HBox>
+			<mx:HBox>
+				<mx:Label text="属性类型"/>
+				<mx:ComboBox id="attriType">
+					<mx:dataProvider>
+						<mx:String>String</mx:String>
+						<mx:String>Number</mx:String>
+						<mx:String>Date</mx:String>
+					</mx:dataProvider>
+				</mx:ComboBox>
+			</mx:HBox>
+			<mx:HBox>
+				<mx:Label text="属性描述"/>
+				<mx:TextInput id="attriDescri"/>
+			</mx:HBox>
+			<mx:Button id="addAttri" label="添加属性" click="addAttriHandler(event)"/>
+		</mx:FormItem>
+		
+	</mx:Form>
+	<mx:Spacer width="100%"/>
+</mx:HBox>

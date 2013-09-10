@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:v="component.*" creationComplete="vbox1_creationCompleteHandler(event)">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.events.FlexEvent;
+			import org.act.od.impl.model.*;
+			import org.act.od.impl.events.*;
+			protected function vbox1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var feNavModel :FigureEditorNavigatorModel = 
+					OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel();
+				
+				var feModel :FigureEditorModel = feNavModel.addFigureEditorModel("File-9999");
+				
+				//2. active the figureEditorpage
+				new FigureEditorNavigatorAppEvent(FigureEditorNavigatorAppEvent.ACTIVE_FIGUREEDITOR_PAGE,
+					{ fileID:"File-9999", filePath:"Examples/examples/Example.xml", 
+						fileName:"NetWork1", figureEditorModel:feModel }
+				).dispatch();
+				
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+		<mx:Canvas id="title" width="100%" height="35%" alpha="1.0" backgroundAlpha="0.5" backgroundColor="#FFFFFF">
+			<mx:Image source="img/homepic1.jpg" left="30" verticalCenter="0" height="80%" scaleContent="true" width="50%"/>
+			<mx:Label text="数据流处理系统" fontWeight="bold" fontFamily="Times New Roman" fontSize="20" horizontalCenter="80" verticalCenter="-30"/>
+			<mx:Label text="Data Stream Processing System" fontWeight="bold" fontFamily="Times New Roman" fontSize="20" horizontalCenter="80" verticalCenter="30" fontStyle="italic"/>
+		</mx:Canvas>
+		<mx:VBox fontFamily="Times New Roman"  width="100%" height="100%" backgroundAlpha="0.5" backgroundColor="#FFFFFF">
+			<mx:Canvas width="100%" height="30" backgroundAlpha="0.7" backgroundColor="#555151">
+				<mx:Label text="系统公告" fontSize="18" fontWeight="bold"  verticalCenter="0" left="10"/>
+				<mx:Button label="添   加" color="#FFFFFF" fillAlphas="[1.0, 1.0]" fillColors="[#000000, #000000]" right="10" verticalCenter="0"/>
+			</mx:Canvas>
+			<mx:HBox>
+				<mx:Spacer width="10" height="100%"/>
+				<mx:VBox>
+					<mx:LinkButton label="新功能" styleName="linkButton"/>
+					<mx:LinkButton label="系统维护" styleName="linkButton"/>	
+				</mx:VBox>
+			</mx:HBox>
+			
+		</mx:VBox>
+	
+</mx:VBox>

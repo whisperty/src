@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()"
+	xmlns:v="component.*">
+	<mx:Style source="StreamProcess.css"/>
+	<mx:Script>   
+		<![CDATA[   
+			import Pattern.AttributeModel;
+			import Pattern.OperatorClass;
+			import Pattern.PatternModel;
+			
+			import com.adobe.cairngorm.business.ServiceLocator;
+			
+			import fileoperation.LoadFromFile;
+			import fileoperation.SaveToFile;
+			
+			import flash.utils.setInterval;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.controls.Menu;
+			import mx.managers.PopUpManager;
+			import mx.messaging.ChannelSet;
+			import mx.messaging.channels.AMFChannel;
+			import mx.messaging.config.ServerConfig;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.IResponder;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.rpc.remoting.RemoteObject;
+			
+			import org.act.od.impl.business.BpelCreator;
+			import org.act.od.impl.events.AccountEvent;
+			import org.act.od.impl.figure.*;
+			import org.act.od.impl.figure.ProcessFigure;
+			import org.act.od.impl.model.*;
+			import org.act.od.impl.model.OrDesignerModelLocator;
+
+			
+			public var serverAddr:String = "http://localhost:8080/fcl/streamnetwork-debug/files/";
+			public const xmlUrl:String = serverAddr+"UserInfo.xml";
+			private var filename:String = serverAddr+"network1.xml";
+			public const patternUrl:String = serverAddr+"Patterns.xml";
+			public const operatorUrl:String =serverAddr+"Operators.xml";
+			[Bindable]
+			private var loginInfo:ArrayCollection; 
+			[Bindable]
+			public var cur:Boolean = false;
+			
+			private var curState:String="none";
+			private const POPUP_OFFSET:int = 10;
+			private var saveFile:SaveToFile = new SaveToFile();
+			private var loadFromFile:LoadFromFile = new LoadFromFile();
+			private var xmlFilter:FileFilter = new FileFilter("XMLs(*.xml)", "*.xml");
+			private var file:FileReferenceList = new FileReferenceList();
+			private var f:FileReference;
+			
+			[Bindable]
+			public var pms:ArrayCollection;
+			[Bindable]
+			public var cos:ArrayCollection;
+			private var channelSet:ChannelSet = null;
+			private function init():void
+			{
+				//Alert.show("ok!");
+				loadInfo.send();
+				getPatterns.send();
+				getOperators.send();
+			
+			}
+			
+			
+			private function patternResultHandler(event:ResultEvent):void
+			{
+				//Alert.show("ok!");
+				var patternColl:XML = event.result as XML;
+				//Alert.show(patternColl);
+				loadFromFile.PatternsintoModel(patternColl);
+				pms = loadFromFile.pms;				
+			}
+			
+			private function operatorResultHandler(event:ResultEvent):void
+			{
+				var operatorColl:XML = event.result as XML;
+				//Alert.show(operatorColl);
+				loadFromFile.OperatorsintoModel(operatorColl);
+				cos = loadFromFile.cos;
+			}
+			
+			
+			private function goLogin(e:Event):void{
+				
+//				var newEvent1:AccountEvent = new AccountEvent(AccountEvent.ADD);
+//				newEvent1.strings = "This has been modified";
+//				dispatchEvent(newEvent1);
+				var loginStatus:Boolean = false;
+				for(var i:int = 0; i<loginInfo.length; i++)
+				{
+					//fdsgfd
+					
+					if(username.text == loginInfo[i].username && userpwd.text == loginInfo[i].password)
+					{
+						loginStatus = true;
+					}
+				}
+				if(loginStatus){
+					this.currentState = "Entered";
+				}
+				else
+					this.currentState = "";
+			}   
+			private function resultHandler(event:ResultEvent):void{   
+				loginInfo = event.result.LoginInfo.Login;           
+			}
+			
+			private function runNet():void
+			{
+				if(!checkNetwork())
+					return;
+				reConstructNet();
+				designer.ordesigner.editorChange2RunningState();
+			
+			}
+			//added by ty 20130703
+			private function checkNetwork():Boolean
+			{
+				var feModel:FigureEditorModel = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel;
+				if(feModel.getPatModel() == null){
+					Alert.show("网络模式未设置！");
+					return false;
+				}
+				var _rootFig:IFigure = feModel.rootFigure;
+				var _root:ProcessFigure = ProcessFigure(_rootFig);
+				
+				var i:int;
+				for(i=0; i<_root.children.length; i++)
+				{
+					var operator:IFigure = IFigure(_root.children[i]);
+/*					if(operator is ConnectionFigure){
+						var startFig:AbstractFigure;
+						var endFig:AbstractFigure;
+						if(AbstractFigure(_rootFig).ID == ConnectionFigure(operator).getStartID())
+							startFig = AbstractFigure(_rootFig);
+						else{
+							var j:int;
+							for(j=0; j<_root.children.length; j++){
+								var subOperator:AbstractFigure = AbstractFigure(_root.children[j]);
+								if(subOperator.ID == ConnectionFigure(operator).getStartID()){
+									if(IFigure(subOperator) is Endow2Figure){
+										resetProcess(_root);
+										Alert.show("网络结束节点不能指向其他过程节点！");
+										return false;
+									}
+									startFig = subOperator;
+								}
+							}
+						}
+						if(AbstractFigure(_rootFig).ID == ConnectionFigure(operator).getEndID()){
+							resetProcess(_root);
+							Alert.show("网络开始借点不能作为被指向的节点！");
+							return false;
+						}
+						else{
+							var j:int;
+							for(j=0; j<_root.children.length; j++){
+								var subOperator:AbstractFigure = AbstractFigure(_root.children[j]);
+								if(subOperator.ID == ConnectionFigure(operator).getEndID()){
+									endFig = subOperator;
+								}
+							}
+						}
+						startFig.addProcessChildren(IFigure(endFig));
+					}*/
+					
+					
+					/*
+					if(operator is Activityow2Figure && !AbstractFigure(operator).isConditionSet()){
+						Alert.show(AbstractFigure(operator).figureName + "算子条件表达式未设置");
+						return false;
+					}*/
+				}
+				return true;
+			}
+			
+			private function reConstructNet():void
+			{
+				var bpelCreator :BpelCreator = new BpelCreator();
+				var newBPELText :XML;
+				var orDesModelLoc :OrDesignerModelLocator = OrDesignerModelLocator.getInstance();
+				newBPELText = bpelCreator.outputInfo(ProcessFigure(orDesModelLoc.getFigureEditorNavigatorModel().activeFigureEditorModel.rootFigure) );
+				
+			}
+			private function showWindow():void
+			{
+				file.browse([xmlFilter]); 
+				file.addEventListener(Event.SELECT, onFileSelect); 
+				file.addEventListener(ProgressEvent.PROGRESS, progressHandle); 
+				file.addEventListener(Event.COMPLETE, completeHandle); 
+			}
+			private function onFileSelect(event:Event):void
+			{
+				for(var i:int=0;i<file.fileList.length;i++){ 
+					f = FileReference(file.fileList[i]);  
+					//returnedName.text=f.name;
+					
+					f.load();
+					f.addEventListener(ProgressEvent.PROGRESS, progressHandle); 
+					f.addEventListener(Event.COMPLETE, completeHandle); 
+					
+				}
+				
+			}
+			private function progressHandle(event : ProgressEvent) : void { 
+				/*progressLabel.text = "complete " + event.bytesLoaded + " bytes"; 
+				var fileUploadPercent : uint = event.bytesLoaded / event.bytesTotal * 100; 
+				uploadProgressBar.setProgress(fileUploadPercent, 100); 
+				uploadProgressBar.label = "Complete " + fileUploadPercent + "%"; */
+			} 
+			
+			private function completeHandle(event : Event) : void {
+				cur = true;
+				var data:XML = XML(f.data.toString());
+				Alert.show("成功载入网络:"+f.name);
+				loadFromFile.data=data;
+				loadFromFile.filename=f.name;
+				loadFromFile.patMods = pms;
+				//this.currentState="Construct";
+				loadFromFile.getNet();
+			} 
+			
+			private function saveNet():void
+			{
+				saveFile.serverAddr = serverAddr;
+				saveFile.saveNet();
+			}
+		
+			private function debug():void
+			{
+				var _network:RemoteObject;
+				_network = (ServiceLocator.getInstance().getRemoteObject("network"));
+				
+				/*var bpelCreator :BpelCreator = new BpelCreator();
+				var newBPELText :String;
+				var orDesModelLoc :OrDesignerModelLocator = OrDesignerModelLocator.getInstance();
+				newBPELText = bpelCreator.outputInfo(ProcessFigure(orDesModelLoc.getFigureEditorNavigatorModel().activeFigureEditorModel.rootFigure) );
+				*/
+				//_network.init();
+				Alert.show("click");
+				
+				_network.init("asdfasfd");
+				/*var _selectNetwork:RemoteObject;
+				_selectNetwork = (ServiceLocator.getInstance().getRemoteObject("selectNetwork"));
+				_selectNetwork.check();
+				Alert.show("double click");*/
+			}
+	
+		]]>   
+	</mx:Script>
+	<rds:Services xmlns:rds="org.act.od.impl.business.*"/>
+
+	<mx:states>
+		<!--State1：Entered-->
+		<mx:State name="Entered">
+			<mx:RemoveChild target="{panel1}"/>
+			<mx:AddChild position="lastChild">
+				
+				<mx:VBox height="100%" width="100%">
+					<mx:ApplicationControlBar width="100%" height="37" dock="true" fontSize="15">
+						<mx:Label text="数据流处理系统 |     欢迎您!"/>
+						<mx:Label text="{username.text}"/>
+						<mx:Spacer width="100%"/>
+						<mx:Button id="help" label="帮助" click="" alpha="0.0"/>
+						<mx:Button id="exit" label="退出" click="this.currentState='Exited'" alpha="0.0"/>
+						
+					</mx:ApplicationControlBar>
+					<mx:HBox width="100%" height="100%" id="hbox1">
+						<mx:VBox id="vbox1" width="130" height="100%" backgroundAlpha="0.2"
+								 backgroundColor="#FFFFFF" fontSize="20" fontWeight="bold">
+							<mx:Button click="this.currentState='Entered'" styleName="home" width="100%"/>
+							<mx:Button click="this.currentState='Construct'" styleName="construct" width="100%"/>
+							<mx:Button click="saveNet()" styleName="save" width="100%" id="saveNetButton" enabled="false"/>
+							<mx:Button id="button1" width="100%" click="this.currentState='Construct';showWindow();" styleName="load"/>
+							<mx:Button click="runNet()" styleName="run" width="100%" id="runNetButton" enabled="false"/>
+							<mx:Button click="this.currentState='Option'" styleName="option" width="100%"/>
+							<!--<mx:Button click="this.currentState='Operator'" styleName="operator" width="100%"/>-->
+						</mx:VBox>
+						<v:Homepage id="homepage" width="100%" height="100%"/>	
+					</mx:HBox>
+					<mx:HBox width="100%" height="26" fontSize="15" color="#F8FCFD">
+						<mx:Label text="数据流处理系统"/>
+						<mx:Spacer width="100%"/>
+						<mx:Label text="(c) 2013 China Mobile"/>
+					</mx:HBox>
+					
+				</mx:VBox>
+			</mx:AddChild>
+			<mx:SetProperty target="{image1}" name="source" value="img/back2.jpg"/>
+			<mx:SetProperty target="{logo}" name="visible" value="false"/>
+		</mx:State>
+		
+		<!--State2:Exit-->
+		<mx:State name="Exited">
+			<mx:RemoveChild target="{panel1}"/>
+			<mx:AddChild position="lastChild">
+				<mx:HBox width="247" height="34" verticalCenter="0" horizontalCenter="0">
+					<mx:Label text="您已退出系统" fontSize="23"/>
+					<mx:Button label="重新登录" width="87" height="31" alpha="0.32" fontSize="14" cornerRadius="8" click="this.currentState=''"/>
+				</mx:HBox>
+			</mx:AddChild>
+			<mx:SetProperty target="{image1}" name="source" value="img/back3.jpg"/>
+			<mx:RemoveChild target="{logo}"/>
+		</mx:State>
+		
+		<!--State3:Construct-->
+		<mx:State name="Construct" basedOn="Entered">
+			<mx:RemoveChild target="{homepage}"/>
+			<mx:AddChild relativeTo="{hbox1}" position="lastChild">
+				<v:OrDesinger id="designer" cur="{cur}" pms="{pms}" cos="{cos}">
+				</v:OrDesinger>
+			</mx:AddChild>
+			<mx:SetProperty target="{saveNetButton}" name="enabled" value="true"/>
+			<mx:SetProperty target="{runNetButton}" name="enabled" value="true"/>
+			
+		</mx:State>
+		
+		<!--State4:Option-->
+		<mx:State name="Option" basedOn="Entered">
+			<mx:RemoveChild target="{homepage}"/>
+			<mx:AddChild position="lastChild" relativeTo="{hbox1}">
+				<mx:Canvas width="100%" height="100%" alpha="0.9">
+					<v:Option width="80%" height="95%" alpha="0.8" borderStyle="outset"
+							  cornerRadius="0" fontFamily="细明体" fontSize="10" horizontalCenter="0"
+							  pms="{pms}" cos="{cos}" verticalCenter="0">
+					</v:Option>
+				</mx:Canvas>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	<mx:HTTPService id="loadInfo" url="{xmlUrl}" result="resultHandler(event)" /> 
+	<mx:HTTPService id="getPatterns" url="{patternUrl}" result="patternResultHandler(event)" resultFormat="e4x"/>
+	<mx:HTTPService id="getOperators" url="{operatorUrl}" result="operatorResultHandler(event)" resultFormat="e4x"/>
+	
+	<mx:Image width="100%" height="100%" scaleContent="true" autoLoad="true" maintainAspectRatio="false" id="image1" horizontalCenter="0" verticalCenter="0">
+		<mx:source>img/back1.jpg</mx:source>
+	</mx:Image>
+	<mx:Panel width="428" height="265" layout="absolute" fontSize="12" fontWeight="normal" horizontalCenter="0" verticalCenter="37" id="panel1" alpha="0.5" backgroundColor="#FBE5E5" cornerRadius="0">   
+		<mx:TextInput x="147" y="51" id="username" fontSize="12" text="mobile" width="180"/>   
+		<mx:TextInput x="147" y="95" id="userpwd" fontSize="12" displayAsPassword="true" text="mobile" width="180"/>   
+		<mx:Button x="160" y="154" label="登录" id="btn1" click="goLogin(event)" fontWeight="normal" fontSize="12"/>   
+		<mx:Label x="73" y="53" text="用户名：" fontSize="12" fontFamily="Arial"/>   
+		<mx:Label x="73" y="97" text="密   码：" fontSize="12"/>   
+		<mx:Button x="256" y="154" label="注册" fontSize="12" fontWeight="normal" id="btn2"/>   
+	</mx:Panel>   
+	<mx:Image id="logo" horizontalCenter="0" source="img/Logo1.png" verticalCenter="-100"/>
+	<mx:Button x="771" y="561" label="按钮" click="debug()"/>
+	
+</mx:Application>
