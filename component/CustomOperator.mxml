@@ -92,6 +92,7 @@
 			private function changeCodeFile(event:MouseEvent):void{
 //				var n:OperatorClass = new OperatorClass("Name","Description","");
 //				cos.addItem(n);
+				Alert.show("upload code file");
 			}
 		]]>
 	</mx:Script>

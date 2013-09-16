@@ -5,11 +5,11 @@
 			import Pattern.AttributeModel;
 			import Pattern.OperatorClass;
 			import Pattern.PatternModel;
-			import mx.controls.Alert;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.events.ValidationResultEvent;
-			
+			import mx.core.Application;
 
 			
 			
@@ -18,6 +18,7 @@
 			[Bindable]
 			private var co:OperatorClass = new OperatorClass();
 			private var vResult:ValidationResultEvent;
+			private var file:FileReference = new FileReference();
 			
 			private function addParaHandler(event:MouseEvent):void
 			{
@@ -63,9 +64,32 @@
 			}
 			private function changeCodeFile(event:MouseEvent):void
 			{
+//				Alert.show("upload code file");
+				file.addEventListener(Event.SELECT, selectHandler); 
+				var javaTypes:FileFilter=new FileFilter("Jar(*.jar, *.java)", "*.jar; *.java");
+//				var allTypes:Array=new Array(javaTypes);
+				
+//				file.browse([javaTypes]);
+				file.browse();
 				
 			}
 			
+			private function selectHandler(event: Event):void
+			{
+				var request:URLRequest=new URLRequest("http://localhost:8080/fcl/FileUploaded");
+//				Alert.show("start upload");
+				try
+				{
+					file.upload(request);
+					Alert.show("恭喜你，上传成功");
+				}
+				catch (error:Error)
+				{
+					Alert.show("上传失败");
+					trace("上传失败");
+				}
+				filename.text = file.name;
+			}
 		]]>
 	</mx:Script>
 	<mx:StringValidator id="paraNameV" source="{paraName}" property="text"/>
