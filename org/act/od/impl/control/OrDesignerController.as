@@ -9,7 +9,7 @@ package org.act.od.impl.control{
 	import org.act.od.impl.commands.CancleCloseFigureEditorCMD;
 	import org.act.od.impl.commands.CanvasChildrenChangedCMD;
 	import org.act.od.impl.commands.ChangeFigureSizeCMD;
-	import org.act.od.impl.commands.CreateSubProcessCMD;
+	import org.act.od.impl.commands.CreatSelectCMD;
 	import org.act.od.impl.commands.EditProjectParameterCMD;
 	import org.act.od.impl.commands.EditProjectPatternCMD;
 	import org.act.od.impl.commands.FigureCopyFromCanvasCMD;
@@ -32,8 +32,6 @@ package org.act.od.impl.control{
 	import org.act.od.impl.commands.NewFolderCMD;
 	import org.act.od.impl.commands.NewProjectCMD;
 	import org.act.od.impl.commands.NodeCreateLinkCMD;
-	import org.act.od.impl.commands.OpenSubProcessCMD;
-//	import org.act.od.impl.commands.RunCMD;
 	import org.act.od.impl.commands.SelectAllCMD;
 	import org.act.od.impl.commands.SelectFigureOfToolPanelCMD;
 	import org.act.od.impl.commands.SetConnectionEndPointCMD;
@@ -119,14 +117,15 @@ package org.act.od.impl.control{
 			
 			addCommand(FigureCanvasAppEvent.Node_Create_Link,NodeCreateLinkCMD);
 			
-			addCommand(FigureCanvasAppEvent.OPEN_SUBPROCESS,OpenSubProcessCMD);
+//			addCommand(FigureCanvasAppEvent.OPEN_SUBPROCESS,OpenSubProcessCMD);
 			
 			addCommand(FigureCanvasAppEvent.EDIT_PROJECT_PARAMETER, EditProjectParameterCMD);
 			
 			//add by ty
 			addCommand(FigureCanvasAppEvent.EDIT_PROJECT_PATTERN, EditProjectPatternCMD);
 			
-			addCommand(FigureCanvasAppEvent.CREATE_NEW_SUBPROCESS,CreateSubProcessCMD);
+//			addCommand(FigureCanvasAppEvent.CREATE_NEW_SUBPROCESS,CreateSubProcessCMD);
+			addCommand(FigureCanvasAppEvent.CREATE_NEW_SELECT, CreatSelectCMD);
 			
 			addCommand(FigureCanvasAppEvent.MOVE_LEFT,MoveLeftCMD);
 			

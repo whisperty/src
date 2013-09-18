@@ -14,46 +14,16 @@
         public var end :Class = Resource.getInstance().icon_tool_end;
         
         [Bindable]
-        public var Switch :Class = Resource.getInstance().icon_tool_switch;
+        public var Switch :Class = Resource.getInstance().icon_tool_project;
         
         [Bindable]
         public var link :Class = Resource.getInstance().icon_tool_link;
         
         [Bindable]
-        public var activity :Class = Resource.getInstance().icon_tool_activity;
+        public var activity :Class = Resource.getInstance().icon_tool_join;
         
         [Bindable]
-        public var subProcess :Class = Resource.getInstance().icon_tool_subprocess;
-        
-        [Bindable]
-        public var email :Class = Resource.getInstance().icon_tool_email;
-        
-        [Bindable]
-        public var fax :Class = Resource.getInstance().icon_tool_fax;
-        
-        [Bindable]
-        public var pager :Class = Resource.getInstance().icon_tool_pager;
-        
-        [Bindable]
-        public var sms :Class = Resource.getInstance().icon_tool_sms;
-        
-        [Bindable]
-        public var voice :Class = Resource.getInstance().icon_tool_voice;
-        
-        [Bindable]
-        public var invoke :Class = Resource.getInstance().icon_tool_invoke;
-		
-		[Bindable]
-        public var receive :Class = Resource.getInstance().icon_tool_receive;
-        
-        [Bindable]
-        public var reply :Class = Resource.getInstance().icon_tool_reply;
-        
-        [Bindable]
-        public var wait :Class = Resource.getInstance().icon_tool_wait;
-		
-		[Bindable]
-        public var assign :Class = Resource.getInstance().icon_tool_assign;
+        public var subProcess :Class = Resource.getInstance().icon_tool_select;
         
         [Bindable]
         private var iconClass :Class;
@@ -85,36 +55,6 @@
 			}
 			else if(label.localeCompare("DataSource") == 0) {
 				iconClass = subProcess;
-			}
-			else if(label.localeCompare("Email") == 0) {
-				iconClass = email;
-			}
-			else if(label.localeCompare("Fax") == 0) {
-				iconClass = fax;
-			}
-			else if(label.localeCompare("Pager") == 0) {
-				iconClass = pager;
-			}
-			else if(label.localeCompare("SMS") == 0) {
-				iconClass = sms;
-			}
-			else if(label.localeCompare("Voice") == 0) {
-				iconClass = voice;
-			}
-			else if(label.localeCompare("Invoke") == 0) {
-				iconClass = invoke;
-			}
-			else if(label.localeCompare("Receive") == 0) {
-				iconClass = receive;
-			}
-			else if(label.localeCompare("Reply") == 0) {
-				iconClass = reply;
-			}
-			else if(label.localeCompare("Wait") == 0) {
-				iconClass = wait;
-			}
-			else if(label.localeCompare("Assign") == 0) {
-				iconClass = assign;
 			}
 			else {
 				

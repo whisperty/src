@@ -2,42 +2,24 @@
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
 				layout="vertical" 
 				verticalAlign = "middle"
-				showCloseButton="false">
+				showCloseButton="false" initialize="init()">
 	<mx:Script>
 		<![CDATA[
-			import mx.managers.PopUpManager;
-			import mx.events.CloseEvent;
-			import org.act.od.impl.model.*;
+			import Pattern.PatternModel;
+			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.act.od.impl.model.*;
 			private var fileName :String;
 			
 			[Bindable]
-			public var cards:ArrayCollection = new ArrayCollection(
-				[ {label:"IMSI",data:1}, //这样的数组分配方式也是第一次见:) 经过分析才学习到:这里的"data"似乎是自定义的变量名,label是组件"label"
-					{label:"event_type", data:2}, 
-					{label:"Duration", data:3} ,
-					
-					{label:"MSISDN",data:1}, //这样的数组分配方式也是第一次见:) 经过分析才学习到:这里的"data"似乎是自定义的变量名,label是组件"label"
-					{label:"IMEI", data:2}, 
-					{label:"MSISDN", data:3} ,
-					
-					{label:"VLR",data:1}, //这样的数组分配方式也是第一次见:) 经过分析才学习到:这里的"data"似乎是自定义的变量名,label是组件"label"
-					{label:"cause", data:2}, 
-					{label:"HLR", data:3} ,
-					
-					{label:"sour_lac",data:1}, //这样的数组分配方式也是第一次见:) 经过分析才学习到:这里的"data"似乎是自定义的变量名,label是组件"label"
-					{label:"sour_ci", data:2}, 
-					{label:"State", data:3} ,
-					{label:"end_ci", data:2}, 
-					{label:"cause_ID", data:3} ,
-					{label:"LAC", data:2},
-					{label:"dest_lac",data:1},
-					{label:"dest_ci",data:2},
-					{label:"oppo_num",data:3},
-					{label:"Send_Stamp",data:1},
-					{label:"Receive_Stamp",data:3}
-					
-				]);
+			public var cards:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			public var selectedCards:ArrayCollection = new ArrayCollection();
 			
 			[Bindable]
 			public var operators:ArrayCollection = new ArrayCollection(
@@ -48,48 +30,177 @@
 					{label:"!=",data:1}, //这样的数组分配方式也是第一次见:) 经过分析才学习到:这里的"data"似乎是自定义的变量名,label是组件"label"
 				]);
 			
+			public function init() :void{
+				var selectedPatt:PatternModel = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.getPatModel();
+				for each (var newObj:Object in selectedPatt.attributes.items)
+					cards.addItem(newObj.name);
+			}
+			
+			public function setTitle(title:String):void{
+				this.title="Project attributes";
+				//this.fn.setFocus();
+			}
+			
 			internal function onCancleHandle(event :MouseEvent) :void {
 				PopUpManager.removePopUp(this);
 			}
 			
 			internal function onConfirmHandle(event :MouseEvent) :void {
-				fileName = fn.text;
+//				fileName = fn.text;
+				var propertyIndex:String = "";
+				for each (var item:String in selectedCards){
+//					Alert.show(item);
+					propertyIndex += String(cards.getItemIndex(item));
+					propertyIndex += " ";
+				}
+				OrDesignerModelLocator.getInstance().setProjectProperty(propertyIndex);
 				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
 				PopUpManager.removePopUp(this);
 			}
+			
 			internal function confirm():void{
-				fileName = fn.text;
+				
 				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
 				PopUpManager.removePopUp(this);
 			}
+			
 			public function getText():String{
 				return fileName;
 			}
-			public function setTitle(title:String):void{
-				this.title="Project property";
-				this.fn.setFocus();
+			
+			//更新右侧的列表
+			public function updateMenu():void
+			{
+				SelectedFD.dataProvider = selectedCards;
 			}
-			public function setRenameTitle(title:String):void{
-				this.title=title;
+			
+			//判断是否已经添加过
+			public function isExist(obj:Object):Boolean
+			{
+				for(var i:int=0;i<selectedCards.length;i++)
+				{
+					if(selectedCards.getItemAt(i) == obj)
+					{
+						return true;
+						break;
+					}
+				}   
+				return false;  
 			}
-			public function setText(text:String):void{
-				this.fn.text = text;
-				this.fn.selectedIndex = 0;
-				this.fn.setFocus();
+			
+			
+			//添加新项
+			private function onAddClick(e:MouseEvent):void
+			{
+				var item:Object = FDList.selectedItem; 
+				
+				if(null == item)
+				{
+					Alert.show("请选择要添加的菜品","错误");
+					return;
+				}
+				else if(isExist(item))
+				{
+					Alert.show("菜品已存在","错误");
+					return;
+				}
+				selectedCards.addItem(item); 
+				updateMenu();
 			}
+			
+			//添加全部
+			private function onAddAllClick(e:MouseEvent):void
+			{
+				selectedCards.removeAll();
+				var data:ArrayCollection=FDList.dataProvider  as ArrayCollection;
+				
+				for each(var obj:Object in data)
+				{
+					selectedCards.addItem(obj);
+				}    
+				updateMenu();
+			}
+			
+			//删除选中项
+			private function onDelClick(e:MouseEvent):void
+			{
+				var selectedIndex:int = SelectedFD.selectedIndex;
+				
+				if(0 > selectedIndex)
+				{
+					Alert.show("请选择要删除的菜品","错误");
+					return ;
+				}  
+				selectedCards.removeItemAt(selectedIndex);
+				updateMenu();
+			}
+			
+			
+			//删除全部
+			private function onDelAllClick(e:MouseEvent):void
+			{
+				selectedCards.removeAll();
+				updateMenu();
+			}
+			
+			//下移选中项
+/*			private function onDownClick(e:MouseEvent):void
+			{
+				var selectedIndex:int = SelectedFD.selectedIndex;
+				
+				if(0 > selectedIndex)
+				{
+					Alert.show("请选择要移动的菜品","错误");
+					return;
+				}
+				else if(selectedCards.length-1 == selectedIndex)
+				{
+					Alert.show("菜品已经在最下面","错误"); 
+					return;
+				}
+				
+				var downItem:Object = selectedCards.getItemAt(selectedIndex+1);
+				selectedCards.removeItemAt(selectedIndex+1);
+				selectedCards.addItemAt(downItem,selectedIndex);
+				updateMenu();
+			}
+			
+			
+			//将选中项上移
+			private function onUpClick(e:MouseEvent):void
+			{
+				var selectedIndex:int = SelectedFD.selectedIndex;
+				
+				if(0 > selectedIndex)
+				{
+					Alert.show("请选择要移动的菜品","错误");
+					return;
+				}
+				else if(0 == selectedIndex)
+				{
+					Alert.show("菜品已经在最上面","错误"); 
+					return;
+				}
+				var upItem:Object = selectedCards.getItemAt(selectedIndex-1);
+				selectedCards.removeItemAt(selectedIndex-1);
+				selectedCards.addItemAt(upItem,selectedIndex);
+				updateMenu();
+			}*/
 		]]>
 	</mx:Script>
 	
-	
-	
-	
-	<mx:HBox x="10" y="28" height="33">
-		<mx:Label text="property: "	/>
-		<mx:ComboBox id="fn"  dataProvider="{cards}"/>
-		<mx:Label height="22" x="152" y="28" text="Bool Operator: "/>
-		<mx:ComboBox width="54" height="21" dataProvider="{operators}"/>
-		<mx:Label x="324" y="28" height="21" text="value: "/>
-		<mx:TextInput width="84"/>
+	<mx:HBox x="10" y="28">
+		<mx:Label text="Attributes: "	/>
+		<mx:HBox>
+			<mx:List id="FDList" labelField="FoodName" width="280" height="100%" dataProvider="{cards}"/>
+			<mx:VBox verticalAlign="middle" horizontalAlign="center" verticalGap="10">
+				<mx:Button id="btAdd" label="添加 " click="onAddClick(event)"/>
+				<mx:Button id="btAddAll" label="全选 " click="onAddAllClick(event)"/>
+				<mx:Button id="btDelAll" label="全删" click="onDelAllClick(event)"/>
+				<mx:Button id="btDel" label="删除" click="onDelClick(event)"/>
+			</mx:VBox>
+			<mx:List id="SelectedFD" labelField="FoodName" width="280" height="100%"/>
+		</mx:HBox>
 	</mx:HBox>
 	
 	<mx:HRule width="100%"/>

@@ -23,8 +23,8 @@ package org.act.od.impl.other
 		 * The source for "switch" image data binding.
 		 */
         [Bindable]
-        [Embed(source="../assets/icon/tool/switch.gif")]
-        public var icon_tool_switch :Class;
+        [Embed(source="../assets/icon/tool/project.gif")]
+        public var icon_tool_project :Class;
 		/**
 		 * The source for "link" image data binding.
 		 */
@@ -35,74 +35,16 @@ package org.act.od.impl.other
 		 * The source for "activity" image data binding.
 		 */
         [Bindable]
-        [Embed(source="../assets/icon/tool/activity.gif")]
-        public var icon_tool_activity :Class;
+        [Embed(source="../assets/icon/tool/join.gif")]
+        public var icon_tool_join :Class;
 		/**
 		 * The source for "email" image data binding.
 		 */
-        [Bindable]
-        [Embed(source="../assets/icon/tool/email.gif")]
-        public var icon_tool_email :Class;
-		/**
-		 * The source for "fax" image data binding.
-		 */
-        [Bindable]
-        [Embed(source="../assets/icon/tool/fax.gif")]
-        public var icon_tool_fax :Class;
-		/**
-		 * The source for "paper" image data binding.
-		 */
-        [Bindable]
-        [Embed(source="../assets/icon/tool/pager.gif")]
-        public var icon_tool_pager :Class;
-		/**
-		 * The source for "sms" image data binding.
-		 */
-        [Bindable]
-        [Embed(source="../assets/icon/tool/sms.gif")]
-        public var icon_tool_sms :Class;
-		/**
-		 * The source for "voice" image data binding.
-		 */
-        [Bindable]
-        [Embed(source="../assets/icon/tool/voice.gif")]
-        public var icon_tool_voice :Class;
-		/**
-		 * The source for "invoke" image data binding.
-		 */
-        [Bindable]
-        [Embed(source="../assets/icon/tool/invoke.gif")]
-        public var icon_tool_invoke :Class;
-		/**
-		 * The source for "receive" image data binding.
-		 */
+
+		
 		[Bindable]
-        [Embed(source="../assets/icon/tool/receive.gif")]
-        public var icon_tool_receive :Class;
-		/**
-		 * The source for "reply" image data binding.
-		 */
-        [Bindable]
-        [Embed(source="../assets/icon/tool/reply.gif")]
-        public var icon_tool_reply :Class;
-		/**
-		 * The source for "wait" image data binding.
-		 */
-        [Bindable]
-        [Embed(source="../assets/icon/tool/wait.gif")]
-        public var icon_tool_wait :Class;
-		/**
-		 * The source for "assign" image data binding.
-		 */
-		[Bindable]
-        [Embed(source="../assets/icon/tool/assign.gif")]
-        public var icon_tool_assign :Class;
-		/**
-		 * The source for "subprocess" image data binding.
-		 */
-		[Bindable]
-        [Embed(source="../assets/icon/tool/subprocess.gif")]
-        public var icon_tool_subprocess :Class;
+        [Embed(source="../assets/icon/tool/select.jpg")]
+        public var icon_tool_select :Class;
 		/**
 		 * The source for "balloon" image data binding.
 		 */

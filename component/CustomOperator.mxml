@@ -22,8 +22,8 @@
 			private var currentOperator:OperatorClass;
 			private var currentIndex:int;
 			private var vResult:ValidationResultEvent;
-			private var file:FileReferenceList = new FileReferenceList();
-			private var f:FileReference;
+			private var file:FileReference = new FileReference();
+//			private var f:FileReference;
 //			private var loadFromFile:LoadFromFile = new LoadFromFile();
 			private function populateForm(event:Event):void
 			{
@@ -49,7 +49,7 @@
 				operatorDescri.text = null;
 				filename.text = null;
 			}
-			private function newOperator(event:MouseEvent):void
+/*			private function newOperator(event:MouseEvent):void
 			{
 				ToolPanel.tt = 1;
 				file.browse();
@@ -81,7 +81,7 @@
 //				loadFromFile.patMods = pms;
 //				this.currentState="Construct";
 //				loadFromFile.getNet();
-			} 
+			} */
 			
 			private function progressHandle(event : ProgressEvent) : void { 
 				/*progressLabel.text = "complete " + event.bytesLoaded + " bytes"; 
@@ -90,9 +90,25 @@
 				uploadProgressBar.label = "Complete " + fileUploadPercent + "%"; */
 			} 
 			private function changeCodeFile(event:MouseEvent):void{
-//				var n:OperatorClass = new OperatorClass("Name","Description","");
-//				cos.addItem(n);
-				Alert.show("upload code file");
+				file.addEventListener(Event.SELECT, selectHandler); 
+				var javaTypes:FileFilter=new FileFilter("Jar(*.jar)", "*.jar");
+				file.browse();
+			}
+			private function selectHandler(event: Event):void
+			{
+				var request:URLRequest=new URLRequest("http://localhost:8080/fcl/FileUploaded");
+				//				Alert.show("start upload");
+				try
+				{
+					file.upload(request);
+					Alert.show("恭喜你，上传成功");
+				}
+				catch (error:Error)
+				{
+					Alert.show("上传失败");
+					trace("上传失败");
+				}
+				filename.text = file.name;
 			}
 		]]>
 	</mx:Script>
@@ -102,7 +118,7 @@
 		<mx:Label text="自定义算子列表"/>
 		<mx:List id="operatorColl" width="200" height="100%" borderStyle="outset"
 				 change="populateForm(event)" dataProvider="{cos}" labelField="@name"/>
-		<mx:Button label="导入新算子" click="newOperator(event)"/>
+<!--		<mx:Button label="导入新算子" click="newOperator(event)"/>-->
 		<mx:Button label="保存所有修改" click="saveAllHandler(event)"/>
 	</mx:VBox>
 	

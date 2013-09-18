@@ -150,14 +150,14 @@ package org.act.od.impl.view{
 					labelText = localizator.getText('toolpanel.basic.subprocess');//select
 					item.@name = labelText;
 				}
-				else if(item.@id == "6") {
+/*				else if(item.@id == "6") {
 					labelText = localizator.getText('toolpanel.basic.union');
 					item.@name = labelText;
 				}
 				else if(item.@id == "7") {
 					labelText = localizator.getText('toolpanel.basic.restrict');
 					item.@name = labelText;
-				}
+				}*/
 			}
 			
 			

@@ -2,14 +2,14 @@ package org.act.od.impl.figure
 {
 	import flash.geom.Point;
 	
-
-	public class Switchow2Figure extends ow2Figure
+	public class Operatorow2Figure extends ow2Figure
 	{
 		protected var radius:Number;
-		public function Switchow2Figure()
+		
+		public function Operatorow2Figure()
 		{
 			super();
-			drawid=102;
+//			drawid=103;
 			standardwidth=110;
 			standardheight=38;
 			radius=8;
@@ -20,7 +20,7 @@ package org.act.od.impl.figure
 			this.lblNodeName.x=8;
 			this.lblNodeName.y=11;
 			this.addChild(this.lblNodeName);
-			this.setpicture(FigureFactory.Switch);
+//			this.setpicture(FigureFactory.join);
 		}
 		override public function setposition(x:Number,y:Number):void{
 			super.setposition(x,y);
@@ -29,71 +29,72 @@ package org.act.od.impl.figure
 			this.rx=x+this.width/2;
 			this.ry=y+this.height/2;
 		}
-
+		
 		override public function setsize(width:Number,height:Number):void{
 			this.width=width;
 			this.height=this.width;
 			this.rx=x+this.width/2;
 			this.ry=y+this.height/2;
 		}
+		
 		override public function autosetsize(arrowX:Number,arrowY:Number,mode:Number):void{
 			var tempW:Number;
 			var tempH:Number;
 			switch(mode)
 			{
 				case 2:
-				tempH=this.y+this.height-arrowY;
-				if(tempH<this.standardheight){
-					tempH=this.standardheight;
-				}
-				this.y=this.y+this.height-tempH;
-				this.height=tempH;
-				this.ry=this.y+this.height/2;
-				break;
+					tempH=this.y+this.height-arrowY;
+					if(tempH<this.standardheight){
+						tempH=this.standardheight;
+					}
+					this.y=this.y+this.height-tempH;
+					this.height=tempH;
+					this.ry=this.y+this.height/2;
+					break;
 				case 4:
-				tempW=arrowX-this.x;
-				if(tempW<this.standardwidth){
-					tempW=this.standardwidth;
-				}
-				this.width=tempW;
-				this.rx=this.x+this.width/2;
-				break;
+					tempW=arrowX-this.x;
+					if(tempW<this.standardwidth){
+						tempW=this.standardwidth;
+					}
+					this.width=tempW;
+					this.rx=this.x+this.width/2;
+					break;
 				case 6:
-				tempH=arrowY-this.y;
-				if(tempH<this.standardheight){
-					tempH=this.standardheight;
-				}
-				this.height=tempH;
-				this.ry=this.y+this.height/2;
-				break;
+					tempH=arrowY-this.y;
+					if(tempH<this.standardheight){
+						tempH=this.standardheight;
+					}
+					this.height=tempH;
+					this.ry=this.y+this.height/2;
+					break;
 				case 8:
-				tempW=this.x+this.width-arrowX;
-				if(tempW<this.standardwidth){
-					tempW=this.standardwidth;
-				}
-				this.x=this.x+this.width-tempW;
-				this.width=tempW;
-				this.rx=this.x+this.width/2;
-				break;
+					tempW=this.x+this.width-arrowX;
+					if(tempW<this.standardwidth){
+						tempW=this.standardwidth;
+					}
+					this.x=this.x+this.width-tempW;
+					this.width=tempW;
+					this.rx=this.x+this.width/2;
+					break;
 				case 1:
-				autosetsize(arrowX,arrowY,2);
-				autosetsize(arrowX,arrowY,8);
-				break;
+					autosetsize(arrowX,arrowY,2);
+					autosetsize(arrowX,arrowY,8);
+					break;
 				case 3:
-				autosetsize(arrowX,arrowY,2);
-				autosetsize(arrowX,arrowY,4);
-				break;
+					autosetsize(arrowX,arrowY,2);
+					autosetsize(arrowX,arrowY,4);
+					break;
 				case 5:
-				autosetsize(arrowX,arrowY,4);
-				autosetsize(arrowX,arrowY,6);
-				break;
+					autosetsize(arrowX,arrowY,4);
+					autosetsize(arrowX,arrowY,6);
+					break;
 				case 7:
-				autosetsize(arrowX,arrowY,6);
-				autosetsize(arrowX,arrowY,8);
-				break;
+					autosetsize(arrowX,arrowY,6);
+					autosetsize(arrowX,arrowY,8);
+					break;
 				case 0:
-				autosetsize(arrowX,arrowY,5);
-				break;
+					autosetsize(arrowX,arrowY,5);
+					break;
 			}
 			super.autosetsize(arrowX,arrowY,mode);
 		}
@@ -109,6 +110,7 @@ package org.act.od.impl.figure
 			}
 			return 0;
 		}
+		
 		override public function getEdgePoint(end:Point):Point{
 			var zsToyx:Boolean;
 			var ysTozx:Boolean;
@@ -187,6 +189,21 @@ package org.act.od.impl.figure
 			}
 			return point;
 		}
+		
+		
+		override public function outputAllInformation():XML{
+			var info:XML=super.outputAllInformation();
+			info.@radius=this.radius;
+			
+			//added by ty
+			//add related info about the operator join
+			return info;
+		}
+		
+		override public function readInformationToFigure(info:XML):void{
+			super.readInformationToFigure(info);
+			this.radius=Number(info.@radius);
+		}
 		override public function drawpicture():void{
 			super.drawpicture();
 			sprt.graphics.beginFill(0xffffff,1);
@@ -206,67 +223,65 @@ package org.act.od.impl.figure
 			this.setImageSizeAndPosition();
 			
 			
-//			this.lblNodeName.x=picture.x+picture.width+0.1*this.width;
-
-			this.lblNodeName.x=picture.x+picture.width+8;
-
+			//			this.lblNodeName.x=picture.x+picture.width+0.1*this.width;
+			
+			this.lblNodeName.x=picture.x+picture.width+8*this.multiple;
+			
 		}
 		override public function setFigureSizeAccordingTolblNodeName():void{
-//			var updatedrawstate:Boolean=false;
-//			if(this.height<this.lblNodeName.textHeight*1.5){
-//				this.height=this.lblNodeName.textHeight*1.5;
-//				updatedrawstate=true;
-//			}
-////			if(this.width<(picture.x+picture.width+this.lblNodeName.textWidth)*1.5){
-////				this.width=(picture.x+picture.width+this.lblNodeName.textWidth)*1.5;
-////				updatedrawstate=true;
-////			}
-//
-//			if(this.width<(picture.x+picture.width+this.lblNodeName.textWidth)+30){
-//				this.width=(picture.x+picture.width+this.lblNodeName.textWidth)+30;
-//				updatedrawstate=true;
-//			}
-
-			this.width=(picture.x+picture.width+this.lblNodeName.textWidth)+30;
-
-
+			//			var updatedrawstate:Boolean=false;
+			//			if(this.height<this.lblNodeName.textHeight*1.5){
+			//				this.height=this.lblNodeName.textHeight*1.5;
+			//				updatedrawstate=true;
+			//			}
+			////			if(this.width<(picture.x+picture.width+this.lblNodeName.textWidth)*1.5){
+			////				this.width=(picture.x+picture.width+this.lblNodeName.textWidth)*1.5;
+			////				updatedrawstate=true;
+			////			}
+			//
+			//			if(this.width<(picture.x+picture.width+this.lblNodeName.textWidth)+30){
+			//				this.width=(picture.x+picture.width+this.lblNodeName.textWidth)+30;
+			//				updatedrawstate=true;
+			//			}
+			
+			this.width=(picture.x+picture.width+this.lblNodeName.textWidth)+30*this.multiple;
 			
 			
 			
-//			this.standardwidth=(picture.x+picture.width+this.lblNodeName.textWidth)*1.5;
-
-			this.standardwidth=(picture.x+picture.width+this.lblNodeName.textWidth)+30;
-
+			
+			//			this.standardwidth=(picture.x+picture.width+this.lblNodeName.textWidth)*1.5;
+			
+			this.standardwidth=(picture.x+picture.width+this.lblNodeName.textWidth)+30*this.multiple;
+			
 			if(this.lblNodeName.textHeight){
 				this.height=this.lblNodeName.textHeight*2.7;
 				this.standardheight=this.lblNodeName.textHeight*2.7;
 			}
 			else{
-				this.width-=18;
-				this.standardwidth-=18;
+				this.width=this.width-18+30-this.multiple*30;
+				this.standardwidth=this.standardwidth-18+30-this.multiple*30;
 			}
-
+			
 			this.rx=this.x+this.width/2;
 			this.ry=this.y+this.height/2;
-//			this.updateDraw();
+			//			this.updateDraw();
 		}
 		override protected function doChangeSize():Boolean{
 			if(this.lblNodeName.textHeight&&this.lblNodeName.textWidth){
 				if(this.height<this.lblNodeName.textHeight*1.5){
 					return true;
 				}
-				if(this.width<(picture.x+picture.width+this.lblNodeName.textWidth)+30){
+				if(this.width<(picture.x+picture.width+this.lblNodeName.textWidth)+30*this.multiple){
 					return true;
 				}
 			}
 			return false;
 		}
 		override protected function autoSetStandardWidth():void{
-			this.standardwidth=(picture.x+picture.width+this.lblNodeName.textWidth)+30;
+			this.standardwidth=(picture.x+picture.width+this.lblNodeName.textWidth)+30*this.multiple;
 		}
 		override protected function autoSetStandardHeight():void{
 			this.standardheight=this.lblNodeName.textHeight*2.7;
 		}
-		
 	}
 }

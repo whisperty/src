@@ -10,7 +10,7 @@ package org.act.od.impl.commands
 	import org.act.od.impl.events.FileNavigatorViewAppEvent;
 	import org.act.od.impl.view.ProjectProperty;
 	import org.act.od.impl.model.OrDesignerModelLocator;
-	import org.act.od.impl.figure.Switchow2Figure;
+	import org.act.od.impl.figure.Projectow2Figure;
 	import org.act.od.impl.figure.IFigure;
 	
 	public class EditProjectParameterCMD extends AODCommand
@@ -21,7 +21,7 @@ package org.act.od.impl.commands
 		}
 		
 		override public function execute(event :OrDesignerEvent) :void{
-			var s = event.data.switchow2Figure as Switchow2Figure;
+			var s = event.data.switchow2Figure as Projectow2Figure;
 			var fileName : String = event.data.fileName;
 			
 			var newFile : ProjectProperty = ProjectProperty(PopUpManager.createPopUp(OrDesignerModelLocator.getInstance().getOrchestraDesigner(), ProjectProperty,true));

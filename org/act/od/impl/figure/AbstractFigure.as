@@ -53,13 +53,9 @@ package org.act.od.impl.figure
 		protected var selectedLineThickness:Number=defaultSelectedLineThickness;
 
 
-
 		protected var defaultFontSize:Number=10;
 		protected var fontsize:Number=defaultFontSize;
 
-		//added by ty 2012/07/03
-		
-		private var conditionExpr: String;
 		
 		public function AbstractFigure()
 		{
@@ -83,20 +79,6 @@ package org.act.od.impl.figure
 			BindingUtils.bindSetter(this.updateAttributeName, this, "figureName");
 			
 			
-		}
-		
-		//added by ty 20130703
-		
-		public function setConditionExpr(expr: String): void
-		{
-			conditionExpr = expr;
-		}
-		
-		public function isConditionSet():Boolean
-		{
-			if(conditionExpr == null)
-				return false;
-			return true;
 		}
 		
 		
@@ -567,7 +549,7 @@ package org.act.od.impl.figure
 //			info.@premultiple=this.premultiple;
 			info.@ID = this.ID;
 			info.@figureName=this.figureName;// modified by zjn
-			info.@conditionExpr = this.conditionExpr;
+//			info.@conditionExpr = this.conditionExpr;
 			
 			//added by zjn
 			var attsXml:XML = new XML("<Attributes></Attributes>");

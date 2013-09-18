@@ -5,7 +5,7 @@
 	<mx:Script>
 		<![CDATA[
 			import org.act.od.impl.events.FigureEditorNavigatorAppEvent;
-			import org.act.od.impl.figure.Voiceow2Figure;
+//			import org.act.od.impl.figure.Voiceow2Figure;
 			import mx.events.CloseEvent;
 			import mx.managers.PopUpManager;
 			import org.act.od.impl.model.*;

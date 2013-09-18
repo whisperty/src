@@ -2,7 +2,6 @@ package org.act.od.impl.model{
 	
 	import Pattern.AttributeModel;
 	import Pattern.PatternModel;
-	import org.act.od.impl.figure.*;
 	
 	import component.ProgressBar;
 	
@@ -11,6 +10,7 @@ package org.act.od.impl.model{
 	import mx.managers.PopUpManager;
 	
 	import org.act.od.framework.model.IModelLocator;
+	import org.act.od.impl.figure.*;
 	import org.act.od.impl.model.*;
 	import org.act.od.impl.view.FigureAttributeNavigator;
 	import org.act.od.impl.view.OrchestraDesigner;
@@ -36,6 +36,7 @@ package org.act.od.impl.model{
 		public var result1:ArrayCollection = new ArrayCollection();
 		[Bindable]
 		public var result2:ArrayCollection = new ArrayCollection();
+		[Bindable]
 		public var pms:ArrayCollection;
 		[Bindable]
 		public var cos:ArrayCollection;
@@ -128,8 +129,20 @@ package org.act.od.impl.model{
 //			property = pro;
 //			operator = op;
 //			value = val;
-			var sf:Array = figureEditorNavigatorModel.activeFigureEditorModel.selectedFigures;
-			AbstractFigure(sf[0]).setConditionExpr(conditionExpr);
+			var sfs:Array = figureEditorNavigatorModel.activeFigureEditorModel.selectedFigures;
+			for each (var sf:IFigure in sfs){
+				if(sf is Selectow2Figure)
+					Selectow2Figure(sf).setConditionExpr(conditionExpr);
+			}
+		}
+		
+		public function setProjectProperty(attributesIndex:String):void
+		{
+			var sfs:Array = figureEditorNavigatorModel.activeFigureEditorModel.selectedFigures;
+			for each (var sf:IFigure in sfs){
+				if(sf is Projectow2Figure)
+					Projectow2Figure(sf).setAttributesIndex(attributesIndex);
+			}
 		}
 		/**
 		 * Return the attributeViewModel.
@@ -199,6 +212,10 @@ package org.act.od.impl.model{
 			//selectedPattern = pat;
 			figureEditorNavigatorModel.activeFigureEditorModel.setPatModel(pat);
 			setAttributeViewModel();
+		}
+		public function getSelectedPat():PatternModel
+		{
+			return figureEditorNavigatorModel.activeFigureEditorModel.getPatModel();
 		}
 	}
 	

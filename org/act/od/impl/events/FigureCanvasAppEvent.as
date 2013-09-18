@@ -58,7 +58,8 @@ package org.act.od.impl.events
 		/**
 		 * Create a new subprocess figure.
 		 */
-		public static const CREATE_NEW_SUBPROCESS : String = "create_new_subprocess_SubProcess";
+//		public static const CREATE_NEW_SUBPROCESS : String = "create_new_subprocess_SubProcess";
+		public static const CREATE_NEW_SELECT : String = "create_new_select_Select";
 		/**
 		 * Move the figure left.
 		 */

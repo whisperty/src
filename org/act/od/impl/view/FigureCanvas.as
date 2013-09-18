@@ -149,15 +149,15 @@ package org.act.od.impl.view{
 			var point :Point = new Point(ox+this.horizontalScrollPosition,oy+this.verticalScrollPosition);
 			
 			var tempFigure :IFigure = this._editorModel.rootFigure.getupperfigure(point.x,point.y);
-			if(tempFigure is SubProcessow2Figure) {
+			if(tempFigure is Selectow2Figure) {
 				var figureEditorVH :FigureEditorVH = 
 					ViewLocator.getInstance().getViewHelper(FigureEditorVH.getViewHelperKey(this._editorModel.fileID)) as FigureEditorVH;
-				SubProcessow2Figure(tempFigure).filePath = figureEditorVH.filePath;
-				new FigureCanvasAppEvent(FigureCanvasAppEvent.CREATE_NEW_SUBPROCESS, 
-					{subProcessFigure:tempFigure}).dispatch();
+//				Selectow2Figure(tempFigure).filePath = figureEditorVH.filePath;
+				new FigureCanvasAppEvent(FigureCanvasAppEvent.CREATE_NEW_SELECT, 
+					{selectow2Figure:tempFigure}).dispatch();
 			}
-			if(tempFigure is Switchow2Figure){
-				new FigureCanvasAppEvent(FigureCanvasAppEvent.EDIT_PROJECT_PARAMETER, {switchow2Figure:tempFigure}).dispatch();
+			if(tempFigure is Projectow2Figure){
+				new FigureCanvasAppEvent(FigureCanvasAppEvent.EDIT_PROJECT_PARAMETER, {Projectow2Figure:tempFigure}).dispatch();
 			
 			}else if(tempFigure is Startow2Figure){
 				new FigureCanvasAppEvent(FigureCanvasAppEvent.EDIT_PROJECT_PATTERN, {startow2Figure:tempFigure}).dispatch();
@@ -209,13 +209,13 @@ package org.act.od.impl.view{
 					var fileName : String = fileNameXNL.toString();
 					
 					var sbDrawId : int = FigureFactory.nametoid("DataSource");
-					var subProcessFigure : SubProcessow2Figure = SubProcessow2Figure(FigureFactory.createFigure(sbDrawId));
+					var subProcessFigure : Selectow2Figure = Selectow2Figure(FigureFactory.createFigure(sbDrawId));
 					//modified by zjn
 					subProcessFigure.setID(this._editorModel.idManager.getAvailabelId());
 					subProcessFigure.setMultiple(this._editorModel._showingMultiple);
 					subProcessFigure.setxy(event.localX,event.localY);
-					subProcessFigure.setSubProcessFileName(fileName);
-					subProcessFigure.setSubProcessFileID(fileId);
+//					subProcessFigure.setSubProcessFileName(fileName);
+//					subProcessFigure.setSubProcessFileID(fileId);
 					
 					this.addChild(subProcessFigure);
 					this._editorModel.rootFigure.addchild(subProcessFigure);
