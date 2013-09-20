@@ -193,6 +193,7 @@ package org.act.od.impl.figure
 		
 		override public function outputAllInformation():XML{
 			var info:XML=super.outputAllInformation();
+			info.@isUserOp = "0";
 			info.@radius=this.radius;
 			
 			//added by ty
@@ -202,6 +203,7 @@ package org.act.od.impl.figure
 		
 		override public function readInformationToFigure(info:XML):void{
 			super.readInformationToFigure(info);
+			info.@isUserOp = "0";
 			this.radius=Number(info.@radius);
 		}
 		override public function drawpicture():void{

@@ -22,10 +22,10 @@
 			private var outputs:ArrayCollection;
 			[Bindable]
 			private var currentOperator:OperatorClass;
+			private var tempOp:OperatorClass = new OperatorClass();
 			private var currentIndex:int;
 			private var vResult:ValidationResultEvent;
-			private var file:FileReferenceList = new FileReferenceList();
-			private var f:FileReference;
+			private var file:FileReference = new FileReference();
 			//			private var loadFromFile:LoadFromFile = new LoadFromFile();
 			private function populateForm(event:Event):void
 			{
@@ -34,9 +34,11 @@
 				operatorName.text = currentOperator.name;
 				operatorDescri.text = currentOperator.descri;
 				filename.text = currentOperator.filename;
+				functionName.text = currentOperator.functionName;
 				
 				params = currentOperator.params.items;
-				outputs = currentOperator.outputs.items;
+//				outputs = currentOperator.outputs.items;
+				tempOp.getReplication(currentOperator);
 			}
 			private function saveAllHandler(event:MouseEvent):void
 			{
@@ -56,74 +58,72 @@
 				params = null;
 				outputs = null;
 			}
-/*			private function newOperator(event:MouseEvent):void
-			{
-				ToolPanel.tt = 1;
-				file.browse();
-				file.addEventListener(Event.SELECT, onFileSelect); 
-				file.addEventListener(ProgressEvent.PROGRESS, progressHandle); 
-				file.addEventListener(Event.COMPLETE, completeHandle); 
-				
-			}*/
-			private function onFileSelect(event:Event):void
-			{
-				for(var i:int=0;i<file.fileList.length;i++){ 
-					f = FileReference(file.fileList[i]);  
-					//returnedName.text=f.name;
-					f.load();
-					f.addEventListener(ProgressEvent.PROGRESS, progressHandle); 
-					f.addEventListener(Event.COMPLETE, completeHandle); 
-					
-				}
-			}
-			private function completeHandle(event : Event) : void {
-				//				cur = true;
-				var data:XML = XML(f.data.toString());
-				Alert.show("成功载入算子:"+f.name);
-				
-				var n:OperatorClass = new OperatorClass(f.name,f.data.toString(),"");
-				cos.addItem(n);
-				//				loadFromFile.data=data;
-				//				loadFromFile.filename=f.name;
-				//				loadFromFile.patMods = pms;
-				//				this.currentState="Construct";
-				//				loadFromFile.getNet();
-			} 
-			
-			private function progressHandle(event : ProgressEvent) : void { 
-				/*progressLabel.text = "complete " + event.bytesLoaded + " bytes"; 
-				var fileUploadPercent : uint = event.bytesLoaded / event.bytesTotal * 100; 
-				uploadProgressBar.setProgress(fileUploadPercent, 100); 
-				uploadProgressBar.label = "Complete " + fileUploadPercent + "%"; */
-			} 
+
 			private function changeCodeFile(event:MouseEvent):void{
-				//				var n:OperatorClass = new OperatorClass("Name","Description","");
-				//				cos.addItem(n);
+				file.addEventListener(Event.SELECT, selectHandler); 
+				var javaTypes:FileFilter=new FileFilter("Jar(*.jar)", "*.jar");
+				file.browse([javaTypes]);
 			}
+			
+			private function selectHandler(event: Event):void
+			{
+				var request:URLRequest=new URLRequest("http://localhost:8080/fcl/FileUploaded");
+				//				Alert.show("start upload");
+				try
+				{
+					file.upload(request);
+					Alert.show("恭喜你，上传成功");
+				}
+				catch (error:Error)
+				{
+					Alert.show("上传失败");
+					trace("上传失败");
+				}
+				filename.text = file.name;
+				tempOp.filename = file.name;
+			}
+			
 			public function removePara(item:AttributeModel):void
 			{
-				currentOperator.removePara(item);
+				tempOp.removePara(item);
 			}
-			public function removeOutput(item:AttributeModel):void
+/*			public function removeOutput(item:AttributeModel):void
 			{
 				currentOperator.removeOutput(item);
-			}
+			}*/
 			private function addParaHandler(event:MouseEvent):void
 			{
 				vResult = paraNameV.validate();
 				if(vResult.type != ValidationResultEvent.VALID)
 					return;
 				var para:AttributeModel = new AttributeModel(paraName.text, String(paraType.selectedItem), paraDescri.text);
-				currentOperator.addPara(para);
+				tempOp.addPara(para);
 			}
-			private function addOutputHandler(event:MouseEvent):void
+			
+			private function doOperatorSave(event:MouseEvent):void
+			{
+				tempOp.functionName = functionName.text;
+				currentOperator.getReplication(tempOp);
+			}
+			
+			private function doOperatorReset(event:MouseEvent):void
+			{
+				operatorName.text = currentOperator.name;
+				operatorDescri.text = currentOperator.descri;
+				filename.text = currentOperator.filename;
+				functionName.text = currentOperator.functionName;
+				params = currentOperator.params.items;
+				tempOp.getReplication(currentOperator);
+			}
+/*			private function addOutputHandler(event:MouseEvent):void
 			{
 				vResult = outputNameV.validate();
 				if(vResult.type != ValidationResultEvent.VALID)
 					return;
 				var output:AttributeModel = new AttributeModel(outputName.text, String(outputType.selectedItem), outputDescri.text);
 				currentOperator.addOutput(output);
-			}
+			}*/
+			
 		]]>
 	</mx:Script>
 	
@@ -137,7 +137,7 @@
 	
 	
 	<mx:StringValidator id="paraNameV" source="{paraName}" property="text"/>
-	<mx:StringValidator id="outputNameV" source="{outputName}" property="text"/>
+<!--	<mx:StringValidator id="outputNameV" source="{outputName}" property="text"/>-->
 	
 	<mx:Canvas  width="100%" height="100%">
 		<mx:VBox horizontalCenter="0">
@@ -145,6 +145,8 @@
 				<mx:FormItem label="算子操作">
 					<mx:HBox>
 						<mx:Button label="删除算子" click="doPatternDelete(event)"/>
+						<mx:Button label="保存修改" click="doOperatorSave(event)"/>
+						<mx:Button label="还原修改" click="doOperatorReset(event)"/>
 					</mx:HBox>
 					
 				</mx:FormItem>
@@ -199,55 +201,13 @@
 					</mx:HBox>
 					<mx:Button id="addAttri" label="添加属性" click="addParaHandler(event)"/>
 				</mx:FormItem>
-				<mx:FormItem label="输出变量信息">
-					<mx:DataGrid dataProvider="{outputs}" editable="true" id="outputGrid">
-						<mx:columns>
-							
-							<mx:DataGridColumn dataField="name" headerText="属性名称"/>
-							<mx:DataGridColumn dataField="type" headerText="属性类型"/>
-							<mx:DataGridColumn dataField="descri" headerText="属性描述"/>
-							<mx:DataGridColumn editable="false">
-								<mx:itemRenderer>
-									<mx:Component>
-										<mx:VBox>
-											<mx:Script>
-												<![CDATA[
-													import Pattern.AttributeModel;
-												]]>
-											</mx:Script>
-											<mx:Button label="Remove" click="outerDocument.removeOutput(data as AttributeModel);"/>
-										</mx:VBox>
-									</mx:Component>
-								</mx:itemRenderer>
-							</mx:DataGridColumn>
-						</mx:columns>
-						
-					</mx:DataGrid>
-				</mx:FormItem>
-				<mx:FormItem label="添加输出变量">
-					<mx:HBox>
-						<mx:Label text="变量名称"/>
-						<mx:TextInput id="outputName"/>
-					</mx:HBox>
-					<mx:HBox>
-						<mx:Label text="变量类型"/>
-						<mx:ComboBox id="outputType">
-							<mx:dataProvider>
-								<mx:String>String</mx:String>
-								<mx:String>Number</mx:String>
-								<mx:String>Date</mx:String>
-							</mx:dataProvider>
-						</mx:ComboBox>
-					</mx:HBox>
-					<mx:HBox>
-						<mx:Label text="变量描述"/>
-						<mx:TextInput id="outputDescri"/>
-					</mx:HBox>
-					<mx:Button id="addOutput" label="添加属性" click="addOutputHandler(event)"/>
-				</mx:FormItem>
+				
 				<mx:FormItem label="可执行文件">
 					<mx:Label id="filename"/>
 					<mx:Button label="修改可执行代码" click="changeCodeFile(event)"/>
+				</mx:FormItem>
+				<mx:FormItem label="可执行方法名">
+					<mx:TextInput id="functionName"/>
 				</mx:FormItem>
 			</mx:Form>
 		</mx:VBox>

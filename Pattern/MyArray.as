@@ -80,5 +80,11 @@ package Pattern
 				
 			}
 		}
+		
+		public function getReplication(ma:MyArray):void
+		{
+			this.itemNum = ma.itemNum;
+			this.items = ma.items;
+		}
 	}
 }

@@ -1,13 +1,14 @@
 package Pattern
 {
-	import org.act.od.impl.model.OrDesignerModelLocator;
 	import org.act.od.impl.figure.FigureFactory;
+	import org.act.od.impl.model.OrDesignerModelLocator;
 	
 	public class OperatorClass
 	{
 		public var name:String;
 		public var descri:String;
 		public var filename:String;
+		public var functionName:String;
 		[Bindable]
 		public var params:MyArray;
 		[Bindable]
@@ -47,6 +48,15 @@ package Pattern
 		{
 			this.figureID = id;
 			FigureFactory.setdic(name, String(id));
+		}
+		
+		public function getReplication(op:OperatorClass):void
+		{
+			this.name = op.name;
+			this.descri = op.descri;
+			this.filename = op.filename;
+			this.functionName = op.functionName;
+			this.params.getReplication(op.params);
 		}
 	}
 }

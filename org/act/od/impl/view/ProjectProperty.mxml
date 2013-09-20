@@ -190,7 +190,7 @@
 	</mx:Script>
 	
 	<mx:HBox x="10" y="28">
-		<mx:Label text="Attributes: "	/>
+		<mx:Label text="属性: "	/>
 		<mx:HBox>
 			<mx:List id="FDList" labelField="FoodName" width="280" height="100%" dataProvider="{cards}"/>
 			<mx:VBox verticalAlign="middle" horizontalAlign="center" verticalGap="10">
@@ -206,8 +206,8 @@
 	<mx:HRule width="100%"/>
 	<mx:HBox width="100%" horizontalAlign="center" horizontalCenter="0">
 		<mx:Label width="35%" visible = "false"/>
-		<mx:Button label="Confirm"  click="onConfirmHandle(event)" />
-		<mx:Button label="Cancel" click="onCancleHandle(event)" />
+		<mx:Button label="确定"  click="onConfirmHandle(event)" />
+		<mx:Button label="取消" click="onCancleHandle(event)" />
 		<mx:Label width="35%" visible = "false"/>
 	</mx:HBox>
 </mx:TitleWindow>
