@@ -1,13 +1,14 @@
 package org.act.od.impl.figure
 {
+	import Pattern.AttributeModel;
 	import Pattern.OperatorClass;
 	
 	import flash.geom.Point;
 	
 	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
 	
 	import org.act.od.impl.model.*;
-	import mx.controls.Alert;
 	
 	
 	public class Userow2Figure extends Operatorow2Figure
@@ -61,6 +62,12 @@ package org.act.od.impl.figure
 			}
 			info.@jarFilename = co.filename;
 			info.@functionName = co.functionName;
+			var paras:String ="";
+			for each (var para:AttributeModel in co.params.items){
+				paras += para.name;
+				paras += " ";
+			}
+			info.@paras = paras;
 			return info;
 		}
 		
