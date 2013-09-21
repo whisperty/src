@@ -168,6 +168,7 @@ package org.act.od.impl.figure
 		override public function outputAllInformation():XML{
 			var info:XML=super.outputAllInformation();
 			info.@r=this.r;
+			info.@srcFilename = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.datasrcName;
 			return info;
 		}		
 		

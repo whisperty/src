@@ -6,8 +6,7 @@ package org.act.od.impl.state
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
-	import flash.net.FileFilter;
-	import flash.net.FileReference;
+	import flash.net.*;
 	import flash.xml.XMLDocument;
 	
 	import mx.collections.ArrayCollection;
@@ -15,6 +14,7 @@ package org.act.od.impl.state
 	import mx.controls.Alert;
 	import mx.managers.PopUpManager;
 	import mx.rpc.xml.SimpleXMLDecoder;
+	import mx.core.Application;
 	
 	import org.act.od.impl.events.ListAllEvent;
 	import org.act.od.impl.figure.*;
@@ -93,7 +93,18 @@ package org.act.od.impl.state
 			_importedFile.addEventListener(Event.COMPLETE, importedFile_completeHandler);
 			//_importedFile.addEventListener(IOErrorEvent.IO_ERROR, importedFile_errorHandler);
 			//_importedFile.addEventListener(SecurityErrorEvent.SECURITY_ERROR, importedFile_errorHandler);
-			_importedFile.load();
+			var request:URLRequest=new URLRequest(Application.application.uploadURL);
+			//				Alert.show("start upload");
+			try
+			{
+				_importedFile.upload(request);
+				Alert.show("恭喜你，上传成功");
+			}
+			catch (error:Error)
+			{
+				Alert.show("上传失败");
+				trace("上传失败");
+			}
 		}
 		protected function importedFile_completeHandler(event:Event):void
 		{

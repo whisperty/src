@@ -39,6 +39,8 @@
 
 			[Bindable]
 			public var serverAddr:String = "http://localhost:8080/fcl/streamnetwork-debug/files/";
+			[Bindable]
+			public var uploadURL:String = "http://localhost:8080/fcl/FileUploaded";
 			public const xmlUrl:String = serverAddr+"UserInfo.xml";
 			private var filename:String = serverAddr+"network1.xml";
 			public const patternUrl:String = serverAddr+"Patterns.xml";

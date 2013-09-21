@@ -72,7 +72,7 @@
 			
 			private function selectHandler(event: Event):void
 			{
-				var request:URLRequest=new URLRequest("http://localhost:8080/fcl/FileUploaded");
+				var request:URLRequest=new URLRequest(Application.application.uploadURL);
 //				Alert.show("start upload");
 				try
 				{

@@ -13,6 +13,7 @@
 			import mx.controls.Text;
 			import mx.events.ValidationResultEvent;
 			import mx.rpc.events.ResultEvent;
+			import mx.core.Application;
 			
 			[Bindable]
 			public var cos:ArrayCollection;
@@ -67,7 +68,7 @@
 			
 			private function selectHandler(event: Event):void
 			{
-				var request:URLRequest=new URLRequest("http://localhost:8080/fcl/FileUploaded");
+				var request:URLRequest=new URLRequest(Application.application.uploadURL);
 				//				Alert.show("start upload");
 				try
 				{
