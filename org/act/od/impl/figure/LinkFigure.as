@@ -39,7 +39,8 @@ package org.act.od.impl.figure
 				return false;
 			}
 			if(this.figureName == ""){
-				Alert.show("给定箭头输入顺序！");
+				Alert.show("请给定箭头输入顺序！");
+				return false;
 			}
 			return true;
 		}
