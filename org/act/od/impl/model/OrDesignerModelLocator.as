@@ -204,6 +204,10 @@ package org.act.od.impl.model{
 		public function setDesignerToolBar():void{
 			orchestraDesigner.designerToolBar.runState();
 		}
+		
+		public function setSaveButton():void{
+			orchestraDesigner.designerToolBar.setSaveButton();
+		}
 		public function getPmsArr():ArrayCollection{
 			return orchestraDesigner.pms;
 		}

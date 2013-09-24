@@ -1,25 +1,25 @@
 package org.act.od.impl.view
 {
 	import flash.events.MouseEvent;
+	import flash.utils.setInterval;
 	
+	import mx.collections.ArrayCollection;
 	import mx.containers.ControlBar;
 	import mx.containers.HBox;
+	import mx.controls.Alert;
 	import mx.controls.LinkButton;
 	import mx.controls.VRule;
-	import org.act.od.impl.view.ToggleLinkButtonSkin;
-	import org.act.od.impl.model.*;
-	import org.act.od.impl.other.Localizator;
-	import org.act.od.impl.viewhelper.DesignerToolBarVH;
-	import mx.controls.Alert;
-	import mx.collections.ArrayCollection;
-	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
-	import flash.utils.setInterval;
 	import mx.rpc.IResponder;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	import mx.rpc.remoting.RemoteObject;
+	
+	import org.act.od.impl.model.*;
 	import org.act.od.impl.model.OrDesignerModelLocator;
+	import org.act.od.impl.other.Localizator;
+	import org.act.od.impl.view.ToggleLinkButtonSkin;
+	import org.act.od.impl.viewhelper.DesignerToolBarVH;
 	
 	/**
 	 * Tool Bar for OrDesigner.
@@ -142,10 +142,7 @@ package org.act.od.impl.view
 			newFileButton.width = 20;
 			newFileButton.toolTip = localizator.getText('toolbar.newfile');
 			
-			saveButton.setStyle("icon",save);
-			saveButton.percentHeight = 100;
-			saveButton.width = 20;
-			saveButton.toolTip = localizator.getText('toolbar.save');
+			
 			
 			saveAllButton.setStyle("icon",saveall);
 			saveAllButton.percentHeight = 100;
@@ -165,6 +162,13 @@ package org.act.od.impl.view
 			zoomOutButton.percentHeight = 100;
 			zoomOutButton.width = 20;
 			zoomOutButton.toolTip = localizator.getText('toolbar.zoomout');*/
+			
+			saveButton.setStyle("icon",save);
+			saveButton.percentHeight = 100;
+			saveButton.width = 20;
+			bpelButton.height = 20;
+			saveButton.toolTip = localizator.getText('toolbar.save');
+			saveButton.enabled = false;
 			
 			bpelButton.setStyle("icon",bpel);
 
@@ -208,7 +212,10 @@ package org.act.od.impl.view
 			pasteButton.width = 20;
 			pasteButton.toolTip = localizator.getText('toolbar.paste');*/
 			
-			
+			var saveBox :HBox = new HBox();
+			saveBox.percentHeight = 100;
+			saveBox.width = 25;
+			saveBox.addChild(saveButton);
 			
 		
 			//layout
@@ -218,10 +225,7 @@ package org.act.od.impl.view
 			newBox.width = 30;
 			newBox.addChild(newFileButton);
 			
-			var saveBox :HBox = new HBox();
-			saveBox.percentHeight = 100;
-			saveBox.width = 25;
-			saveBox.addChild(saveButton);
+			
 			
 			var zoomBox :HBox = new HBox();
 			zoomBox.percentHeight = 100;
@@ -242,12 +246,13 @@ package org.act.od.impl.view
 			runBox.addChild(bpelButton);
 			runBox.addChild(pauseButton);
 			
+			var vrule2 :VRule = new VRule();
+			vrule2.percentHeight = 100;
 			/*
 			var vrule1 :VRule = new VRule();
 			vrule1.percentHeight = 100;
 			
-			var vrule2 :VRule = new VRule();
-			vrule2.percentHeight = 100;
+			
 			
 			var vrule3 :VRule = new VRule();
 			vrule3.percentHeight = 100;
@@ -257,9 +262,9 @@ package org.act.od.impl.view
 			
 			this.setStyle("borderStyle", "solid");
 			
+			
 		/*
-			this.addChild(saveBox);
-			this.addChild(vrule2);
+			
 			this.addChild(editBox);
 			this.addChild(vrule3);
 			this.addChild(zoomBox);
@@ -267,6 +272,8 @@ package org.act.od.impl.view
 			this.addChild(runBox);*/
 			//add by ty
 			this.addChild(runBox);
+			this.addChild(vrule2);
+			this.addChild(saveBox);
 			bpelButton.enabled = false;
 			pauseButton.enabled = false;
 			this.initEventListener();
@@ -290,11 +297,17 @@ package org.act.od.impl.view
 			this.zoomOutButton.addEventListener(MouseEvent.CLICK, designerToolBarVH.onZoomOutHandler);*/
 
 			this.bpelButton.addEventListener(MouseEvent.CLICK, designerToolBarVH.onBpelHandler);
+			this.saveButton.addEventListener(MouseEvent.CLICK, designerToolBarVH.saveResult);
 			//Alert.show("run run");
 		}
 		public function runState():void{
 			bpelButton.enabled = true;
 			pauseButton.enabled = true;
+		}
+		public function setSaveButton():void{
+			bpelButton.enabled = false;
+			pauseButton.enabled = false;
+			saveButton.enabled = true;
 		}
 	}
 }

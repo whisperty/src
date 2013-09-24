@@ -74,7 +74,6 @@ package org.act.od.impl.figure
 		
 		override public function readInformationToFigure(info:XML):void{
 			super.readInformationToFigure(info);
-			info.@isUserOp = "1";
 			var cos:ArrayCollection = OrDesignerModelLocator.getInstance().cos;
 			var currentCo:OperatorClass;
 			for each (var co:OperatorClass in cos){
@@ -83,8 +82,15 @@ package org.act.od.impl.figure
 					break;
 				}
 			}
-			if(co == null)
-				Alert.show("子定义算子" + figureName + "不存在！");
+			if(currentCo == null)
+				Alert.show("自定义算子" + figureName + "不存在！");
+			this.jarFilename = info.@jarFilename;
+			this.functionName = info.@functionName;
+		}
+		
+		override public function isConfig():Boolean
+		{
+			return true;
 		}
 	}
 }

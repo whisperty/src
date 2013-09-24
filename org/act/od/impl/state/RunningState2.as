@@ -29,11 +29,11 @@ package org.act.od.impl.state
 			this.attributeViewModel = OrDesignerModelLocator.getInstance().getAttributeViewModel();
 			this.datasrcViewModel = new DataSourceViewModel();
 		}
-		public function saveFileCompleteHandler(event:Event):void
+/*		public function saveFileCompleteHandler(event:Event):void
 		{
 			OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.resultFileName = saveFile.name;
 			//Alert.show(OrDesignerModelLocator.getInstance().resultFileName);
-		}
+		}*/
 		override public function mouseDown(point:Point, event:MouseEvent):void{
 			var x:Number=point.x;
 			var y:Number=point.y;
@@ -60,13 +60,13 @@ package org.act.od.impl.state
 					}
 					else if(temp is Endow2Figure)
 					{
-						saveFile = new FileReference();
+/*						saveFile = new FileReference();
 						saveFile.save("",resultFileName);
 						
 					//	saveFile.addEventListener(Event.COMPLETE, saveFileCompleteHandler);
 						saveFile.addEventListener(Event.SELECT,saveFileCompleteHandler);
 						//OrDesignerModelLocator.getInstance().getDataSourceViewModel().datasource = Endow2Figure(temp).getresArray();
-						//OrDesignerModelLocator.getInstance().getOrchestraDesigner().figureAttributeNav.setDataSourceView();
+						//OrDesignerModelLocator.getInstance().getOrchestraDesigner().figureAttributeNav.setDataSourceView();*/
 					}
 					else if(temp is ConnectionFigure)
 					{

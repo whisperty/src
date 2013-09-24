@@ -22,6 +22,11 @@ package org.act.od.impl.figure
 			this.addChild(this.lblNodeName);
 //			this.setpicture(FigureFactory.join);
 		}
+		
+		public function isConfig():Boolean
+		{
+			return true;
+		}
 		override public function setposition(x:Number,y:Number):void{
 			super.setposition(x,y);
 			this.x=x;

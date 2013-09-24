@@ -2,36 +2,36 @@ package org.act.od.impl.viewhelper
 {
 	import com.adobe.cairngorm.business.ServiceLocator;
 	
+	import fileoperation.SaveToFile;
+	
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.net.FileReference;
+	import flash.net.URLRequest;
+	import flash.utils.setInterval;
+	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
+	import mx.core.Application;
+	import mx.events.CloseEvent;
+	import mx.managers.PopUpManager;
 	import mx.rpc.AsyncToken;
-	import flash.utils.setInterval;
 	import mx.rpc.IResponder;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	import mx.rpc.remoting.RemoteObject;
-	import org.act.od.impl.model.OrDesignerModelLocator;
-	import org.act.od.impl.business.BpelCreator;
-	import org.act.od.impl.figure.ProcessFigure;
-	import org.act.od.impl.model.OrDesignerModelLocator;
-	
-	import fileoperation.SaveToFile;
-	
-	import flash.events.MouseEvent;
-	
-	import mx.collections.ArrayCollection;
-	import mx.controls.Alert;
-	import mx.events.CloseEvent;
-	import mx.managers.PopUpManager;
 	import mx.utils.ObjectUtil;
 	
 	import org.act.od.framework.view.ViewHelper;
 	import org.act.od.framework.view.ViewLocator;
+	import org.act.od.impl.business.BpelCreator;
+	import org.act.od.impl.business.delegates.AccountDelegate;
 	import org.act.od.impl.events.DesignerToolBarAppEvent;
 	import org.act.od.impl.events.FigureCanvasAppEvent;
 	import org.act.od.impl.events.FigureEditorAppEvent;
 	import org.act.od.impl.events.RunEvent;
 	import org.act.od.impl.figure.AbstractFigure;
+	import org.act.od.impl.figure.ProcessFigure;
 	import org.act.od.impl.model.DataSourceViewModel;
 	import org.act.od.impl.model.FigureEditorModel;
 	import org.act.od.impl.model.FileNavigatorViewModel;
@@ -41,7 +41,6 @@ package org.act.od.impl.viewhelper
 	import org.act.od.impl.view.FigureEditor;
 	import org.act.od.impl.view.FigureEditorNavigatorChild;
 	import org.act.od.impl.view.SaveFileWindow;
-	import org.act.od.impl.business.delegates.AccountDelegate;
 	
 	/**
 	 * The ViewHelper of DesignerToolBar.
@@ -61,6 +60,8 @@ package org.act.od.impl.viewhelper
 		private var saveFile:SaveToFile;
 		[Bindable]
 		public var filterOptions:Object = new Object();
+		
+		private var file:FileReference = new FileReference();
 		/**
 		 * Initialize DesignerToolBar with DesignerToolBarVH
 		 */
@@ -284,6 +285,19 @@ package org.act.od.impl.viewhelper
 			delegate.loadPhotos(inputFileID, outputFileID, filterOptions);
 			OrDesignerModelLocator.getInstance().popProgressBar();
 			OrDesignerModelLocator.getInstance().getFigureCanvasStateDomain().setFCActiveState(new CheckState());
+			OrDesignerModelLocator.getInstance().setSaveButton();
+		}
+		
+		public function saveResult():void
+		{
+			var downloadURL:URLRequest = new URLRequest(Application.application.downloadURL);
+			file.addEventListener(Event.COMPLETE, downloadCompleteHandler);
+			file.download(downloadURL);
+		}
+		
+		public function downloadCompleteHandler():void
+		{
+			Alert.show("文件下载成功");
 		}
 		
 		public function processNetwork(_root:AbstractFigure):void

@@ -1,5 +1,6 @@
 package org.act.od.impl.figure
 {
+	import Pattern.AttributeModel;
 	import Pattern.PatternModel;
 	
 	import flash.geom.Point;
@@ -17,6 +18,7 @@ package org.act.od.impl.figure
 		protected var r:Number;
 		protected var datasrc:StartAttribute;
 		private var links:ArrayCollection;
+		private var pm:PatternModel;
 		
 		//add by ty
 		private var streamFile:String;
@@ -45,6 +47,20 @@ package org.act.od.impl.figure
 			if(streamFile == null)
 				return false;
 			return true;
+		}
+		
+		public function setPatternModel(pm:PatternModel):void
+		{
+			this.pm = pm;
+		}
+		
+		public function isConfig():Boolean
+		{
+			if(pm == null){
+				Alert.show("未设置网络模式");
+				return false;
+			}
+			return isFileSet();
 		}
 		
 		public function addLink(con:ConnectionFigure):void
@@ -168,13 +184,23 @@ package org.act.od.impl.figure
 		override public function outputAllInformation():XML{
 			var info:XML=super.outputAllInformation();
 			info.@r=this.r;
-			info.@srcFilename = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.datasrcName;
+			info.@srcFilename = streamFile;
+			var pmXML:XML = new XML("<patterns></patterns>");
+			
+			for each(var item:AttributeModel in pm.attributes.items){
+				var att:XML = new XML("<attribute></attribute>");
+				att.@name =item.name;
+				att.@type = item.type;
+				att.@description = item.descri;
+			}
 			return info;
 		}		
 		
 		override public function readInformationToFigure(info:XML):void{
 			super.readInformationToFigure(info);
 			this.r=Number(info.@r);
+			this.streamFile = info.@sercFilename;
+			
 		}
 		override protected function OutputScale(mtp:Number):void{
 			super.OutputScale(mtp);

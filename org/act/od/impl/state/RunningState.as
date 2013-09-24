@@ -64,7 +64,7 @@ package org.act.od.impl.state
 					}
 					else if(temp is Endow2Figure)
 					{
-						
+						Endow2Figure(temp)
 					}
 					
 				}
@@ -108,9 +108,8 @@ package org.act.od.impl.state
 		}
 		protected function importedFile_completeHandler(event:Event):void
 		{
-			
-			
 			var inputFileID:String = _importedFile.name; 
+			selectedDataSource.setStreamFile(inputFileID);
 			OrDesignerModelLocator.getInstance().getFigureCanvasStateDomain().setFCActiveState(new RunningState2());
 			OrDesignerModelLocator.getInstance().setDesignerToolBar();
 			var fileID:String;

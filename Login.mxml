@@ -41,6 +41,8 @@
 			public var serverAddr:String = "http://localhost:8080/fcl/streamnetwork-debug/files/";
 			[Bindable]
 			public var uploadURL:String = "http://localhost:8080/fcl/FileUploaded";
+			[Bindable]
+			public var downloadURL:String = serverAddr+"myresult.txt";
 			public const xmlUrl:String = serverAddr+"UserInfo.xml";
 			private var filename:String = serverAddr+"network1.xml";
 			public const patternUrl:String = serverAddr+"Patterns.xml";
@@ -139,42 +141,16 @@
 				for(i=0; i<_root.children.length; i++)
 				{
 					var operator:IFigure = IFigure(_root.children[i]);
-/*					if(operator is ConnectionFigure){
-						var startFig:AbstractFigure;
-						var endFig:AbstractFigure;
-						if(AbstractFigure(_rootFig).ID == ConnectionFigure(operator).getStartID())
-							startFig = AbstractFigure(_rootFig);
-						else{
-							var j:int;
-							for(j=0; j<_root.children.length; j++){
-								var subOperator:AbstractFigure = AbstractFigure(_root.children[j]);
-								if(subOperator.ID == ConnectionFigure(operator).getStartID()){
-									if(IFigure(subOperator) is Endow2Figure){
-										resetProcess(_root);
-										Alert.show("网络结束节点不能指向其他过程节点！");
-										return false;
-									}
-									startFig = subOperator;
-								}
-							}
-						}
-						if(AbstractFigure(_rootFig).ID == ConnectionFigure(operator).getEndID()){
-							resetProcess(_root);
-							Alert.show("网络开始借点不能作为被指向的节点！");
+					if(operator is Operatorow2Figure){
+						if(!Operatorow2Figure(operator).isConfig())
 							return false;
-						}
-						else{
-							var j:int;
-							for(j=0; j<_root.children.length; j++){
-								var subOperator:AbstractFigure = AbstractFigure(_root.children[j]);
-								if(subOperator.ID == ConnectionFigure(operator).getEndID()){
-									endFig = subOperator;
-								}
-							}
-						}
-						startFig.addProcessChildren(IFigure(endFig));
-					}*/
-					
+					}else if(operator is Startow2Figure){
+						if(!Startow2Figure(operator).isConfig())
+							return false;
+					}else if(operator is LinkFigure){
+						if(!LinkFigure(operator).isConfig())
+							return false;
+					}
 					
 					/*
 					if(operator is Activityow2Figure && !AbstractFigure(operator).isConditionSet()){

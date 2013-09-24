@@ -1,9 +1,10 @@
 package org.act.od.impl.commands
 {
+	import Pattern.PatternModel;
+	
 	import mx.controls.Alert;
 	import mx.events.CloseEvent;
 	import mx.managers.PopUpManager;
-	import Pattern.PatternModel;
 	
 	import org.act.od.framework.commands.AODCommand;
 	import org.act.od.framework.control.OrDesignerEvent;
@@ -41,6 +42,11 @@ package org.act.od.impl.commands
 			var toolPanelModel:ToolPanelModel = OrDesignerModelLocator.getInstance().getToolPanelModel();
 //			Startow2Figure(toolPanelModel.selectedFigure).setPatModel(pat);
 			OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel().activeFigureEditorModel.setPatModel(pat);
+			var sfs:Array = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.selectedFigures;
+			for each (var sf:IFigure in sfs){
+				if(sf is Startow2Figure)
+					Startow2Figure(sf).setPatternModel(pat);
+			}
 		}
 	}
 }

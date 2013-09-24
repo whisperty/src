@@ -5,7 +5,7 @@ package org.act.od.impl.figure
 
 	public class Projectow2Figure extends Operatorow2Figure
 	{
-		private var attributesIndex:String;
+		private var attributesName:String;
 		public function Projectow2Figure()
 		{
 			super();
@@ -15,24 +15,30 @@ package org.act.od.impl.figure
 		
 		public function setAttributesIndex(attributesIndex:String):void
 		{
-			this.attributesIndex = attributesIndex;
+			this.attributesName = attributesIndex;
 		}
 		
 		public function getAttributesIndex():String
 		{
-			return attributesIndex;
+			return attributesName;
 		}
 		
+		override public function isConfig():Boolean
+		{
+			if(attributesName == null)
+				return false;
+			return true;
+		}
 		override public function outputAllInformation():XML{
 			var info:XML=super.outputAllInformation();
-			info.@attributesIndex = attributesIndex;
+			info.@attributesIndex = attributesName;
 			return info;
 		}
 		
 		
 		override public function readInformationToFigure(info:XML):void{
 			super.readInformationToFigure(info);
-			info.@attributesIndex = attributesIndex;
+			attributesName = info.@attributesIndex;
 		}
 	}
 }

@@ -12,6 +12,11 @@ package org.act.od.impl.figure
 			this.setpicture(FigureFactory.join);
 		}
 		
+		override public function isConfig():Boolean
+		{
+			return true;
+		}
+		
 		override public function outputAllInformation():XML{
 			var info:XML=super.outputAllInformation();
 			info.@radius=this.radius;

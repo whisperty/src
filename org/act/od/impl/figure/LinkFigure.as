@@ -3,6 +3,8 @@ package org.act.od.impl.figure
 	
 	import flash.geom.Point;
 	
+	import mx.controls.Alert;
+	
 	public class LinkFigure extends ConnectionFigure
 	{
 		public function LinkFigure()
@@ -20,6 +22,26 @@ package org.act.od.impl.figure
 //				height=symbolheight;
 //			}
 //			this.setAttributeValue("","sequenceFlows");
+		}
+		
+		public function isConfig():Boolean
+		{
+			if(startFigure == null || endFigure == null){
+				Alert.show("存在箭头没有起始或者指向算子节点");
+				return false;
+			}
+			if(startFigure is Endow2Figure){
+				Alert.show("终止节点不能作为箭头起点");
+				return false;
+			}
+			if(endFigure is Startow2Figure){
+				Alert.show("起始节点不能作为箭头指向");
+				return false;
+			}
+			if(this.figureName == ""){
+				Alert.show("给定箭头输入顺序！");
+			}
+			return true;
 		}
 		
 		override public function drawpicture():void

@@ -50,7 +50,7 @@
 				var propertyIndex:String = "";
 				for each (var item:String in selectedCards){
 //					Alert.show(item);
-					propertyIndex += String(cards.getItemIndex(item));
+					propertyIndex += item;
 					propertyIndex += " ";
 				}
 				OrDesignerModelLocator.getInstance().setProjectProperty(propertyIndex);
@@ -96,12 +96,12 @@
 				
 				if(null == item)
 				{
-					Alert.show("请选择要添加的菜品","错误");
+					Alert.show("请选择要添加的属性","错误");
 					return;
 				}
 				else if(isExist(item))
 				{
-					Alert.show("菜品已存在","错误");
+					Alert.show("属性已存在","错误");
 					return;
 				}
 				selectedCards.addItem(item); 
@@ -128,7 +128,7 @@
 				
 				if(0 > selectedIndex)
 				{
-					Alert.show("请选择要删除的菜品","错误");
+					Alert.show("请选择要删除的属性","错误");
 					return ;
 				}  
 				selectedCards.removeItemAt(selectedIndex);
