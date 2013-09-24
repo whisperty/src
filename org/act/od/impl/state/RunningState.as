@@ -60,6 +60,7 @@ package org.act.od.impl.state
 					if(temp is Startow2Figure)
 					{
 						selectedDataSource = Startow2Figure(temp);
+//						Alert.show("set source file");
 						importDataStreamHandler();
 					}
 					else if(temp is Endow2Figure)
@@ -85,8 +86,8 @@ package org.act.od.impl.state
 		protected function importDataStreamHandler():void{
 			_importedFile = new FileReference;
 			_importedFile.addEventListener(Event.SELECT, importedFile_selectHandler);
-			//_importedFile.browse([new FileFilter("XML File", "*.xml")]);
-			_importedFile.browse();
+			_importedFile.browse([new FileFilter("TXT", "*.txt")]);
+//			_importedFile.browse();
 		}
 		protected function importedFile_selectHandler(event:Event):void
 		{
@@ -98,12 +99,12 @@ package org.act.od.impl.state
 			try
 			{
 				_importedFile.upload(request);
-				Alert.show("恭喜你，上传成功");
+				Alert.show("源文件设置成功");
 			}
 			catch (error:Error)
 			{
-				Alert.show("上传失败");
-				trace("上传失败");
+				Alert.show("源文件设置失败");
+//				trace("上传失败");
 			}
 		}
 		protected function importedFile_completeHandler(event:Event):void

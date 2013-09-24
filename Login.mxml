@@ -122,7 +122,6 @@
 			{
 				if(!checkNetwork())
 					return;
-				reConstructNet();
 				designer.ordesigner.editorChange2RunningState();
 			
 			}
@@ -161,14 +160,6 @@
 				return true;
 			}
 			
-			private function reConstructNet():void
-			{
-				var bpelCreator :BpelCreator = new BpelCreator();
-				var newBPELText :XML;
-				var orDesModelLoc :OrDesignerModelLocator = OrDesignerModelLocator.getInstance();
-				newBPELText = bpelCreator.outputInfo(ProcessFigure(orDesModelLoc.getFigureEditorNavigatorModel().activeFigureEditorModel.rootFigure) );
-				
-			}
 			private function showWindow():void
 			{
 				file.browse([xmlFilter]); 

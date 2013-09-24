@@ -52,7 +52,7 @@ package org.act.od.impl.figure
 		public function setPatternModel(pm:PatternModel):void
 		{
 			this.pm = pm;
-			Alert.show("set pm");
+//			Alert.show("set pm");
 		}
 		
 		public function isConfig():Boolean
@@ -228,6 +228,7 @@ package org.act.od.impl.figure
 					pms.addItem(pm);
 				}
 			}
+			OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel().activeFigureEditorModel.setPatModel(this.pm);
 		}
 		
 		override protected function OutputScale(mtp:Number):void{
