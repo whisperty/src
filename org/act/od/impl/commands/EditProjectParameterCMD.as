@@ -23,7 +23,10 @@ package org.act.od.impl.commands
 		override public function execute(event :OrDesignerEvent) :void{
 			var s = event.data.switchow2Figure as Projectow2Figure;
 			var fileName : String = event.data.fileName;
-			
+			if(!OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel().activeFigureEditorModel.getPatModel()){
+				Alert.show("请设置网络模式");
+				return;
+			}
 			var newFile : ProjectProperty = ProjectProperty(PopUpManager.createPopUp(OrDesignerModelLocator.getInstance().getOrchestraDesigner(), ProjectProperty,true));
 			newFile.setTitle("File");
 			IFigure(OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel().activeFigureEditorModel.selectedFigures[0]).hideContextPanel();

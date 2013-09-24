@@ -22,6 +22,10 @@ package org.act.od.impl.commands
 			super();
 		}
 		override public function execute(event :OrDesignerEvent) :void{
+			if(!OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel().activeFigureEditorModel.getPatModel()){
+				Alert.show("请设置网络模式");
+				return;
+			}
 			selectow2Figure = event.data.subProcessFigure as Selectow2Figure;
 			var contidionSetPanel : SelectProperty = SelectProperty(PopUpManager.createPopUp(OrDesignerModelLocator.getInstance().getOrchestraDesigner(), SelectProperty,true));
 			PopUpManager.centerPopUp(contidionSetPanel);
