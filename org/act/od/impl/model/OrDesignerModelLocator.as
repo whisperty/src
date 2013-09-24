@@ -144,6 +144,16 @@ package org.act.od.impl.model{
 					Projectow2Figure(sf).setAttributesIndex(attributesIndex);
 			}
 		}
+		
+		public function setProjectPattern(pm:PatternModel):void
+		{
+			getFigureEditorNavigatorModel().activeFigureEditorModel.setPatModel(pm);
+			var sfs:Array = figureEditorNavigatorModel.activeFigureEditorModel.selectedFigures;
+			for each (var sf:IFigure in sfs){
+				if(sf is Startow2Figure)
+					Startow2Figure(sf).setPatternModel(pm);
+			}
+		}
 		/**
 		 * Return the attributeViewModel.
 		 */

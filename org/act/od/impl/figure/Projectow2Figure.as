@@ -31,14 +31,14 @@ package org.act.od.impl.figure
 		}
 		override public function outputAllInformation():XML{
 			var info:XML=super.outputAllInformation();
-			info.@attributesIndex = attributesName;
+			info.@attributesName = attributesName;
 			return info;
 		}
 		
 		
 		override public function readInformationToFigure(info:XML):void{
 			super.readInformationToFigure(info);
-			attributesName = info.@attributesIndex;
+			attributesName = info.@attributesName;
 		}
 	}
 }

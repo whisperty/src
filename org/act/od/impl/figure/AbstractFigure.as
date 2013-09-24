@@ -552,13 +552,13 @@ package org.act.od.impl.figure
 //			info.@conditionExpr = this.conditionExpr;
 			
 			//added by zjn
-			var attsXml:XML = new XML("<Attributes></Attributes>");
+/*			var attsXml:XML = new XML("<Attributes></Attributes>");
 			var attArray:Array = this.attribute.getAttributeXML();
 			for each (var arr:XML in attArray) {
 				attsXml.appendChild(arr);
 			}
 			
-			info.appendChild(attsXml);
+			info.appendChild(attsXml);*/
 
 			return info;
 		}
@@ -591,8 +591,8 @@ package org.act.od.impl.figure
 			this.height=Number(info.@height);
 			
 			//added by zjn
-			var atts:XMLList = info.children();
-			this.attribute.setAttribute(atts);
+//			var atts:XMLList = info.children();
+//			this.attribute.setAttribute(atts);
 		}
 		public function getMultiple():Number{
 			return this.multiple;

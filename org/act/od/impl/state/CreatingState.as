@@ -2,6 +2,7 @@ package org.act.od.impl.state{
 
 	
 	import Pattern.PatternModel;
+	import org.act.od.impl.events.FigureCanvasAppEvent;
 	
 	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
@@ -129,14 +130,15 @@ package org.act.od.impl.state{
 			if(this.toolPanelModel.selectedFigure is Startow2Figure)
 			{
 			
-				var fcfw1 :SelectModel;
+/*				var fcfw1 :SelectModel;
 				fcfw1 = PopUpManager.createPopUp(OrDesignerModelLocator.getInstance().getOrchestraDesigner(),
 					SelectModel, true) as SelectModel;
 				fcfw1.width = 350;
 				fcfw1.height = 180;
 				fcfw1.callbackFunction = this.setModFunction;
-				PopUpManager.centerPopUp(fcfw1);
+				PopUpManager.centerPopUp(fcfw1);*/
 				this.figureENModel.activeFigureEditorModel.rootFigure.addchild(this.toolPanelModel.selectedFigure);
+//				new FigureCanvasAppEvent(FigureCanvasAppEvent.EDIT_PROJECT_PATTERN, {startow2Figure:toolPanelModel.selectedFigure}).dispatch();
 				
 			}else{
 				this.figureENModel.activeFigureEditorModel.rootFigure.addchild(this.toolPanelModel.selectedFigure);
@@ -152,11 +154,11 @@ package org.act.od.impl.state{
 		}
 		
 		
-		public function setModFunction(pat:PatternModel):void
+/*		public function setModFunction(pat:PatternModel):void
 		{
 //			Startow2Figure(this.toolPanelModel.selectedFigure).setPatModel(pat);
 			figureENModel.activeFigureEditorModel.setPatModel(pat);
-		}
+		}*/
 		
 		/**
 		 * change the figure size

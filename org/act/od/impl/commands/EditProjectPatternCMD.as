@@ -33,7 +33,9 @@ package org.act.od.impl.commands
 			newFile.callbackFunction = this.setModFunction;
 			PopUpManager.centerPopUp(newFile);
 			newFile.setTitle("File");
-			IFigure(OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel().activeFigureEditorModel.selectedFigures[0]).hideContextPanel();
+			var selectedFigures:Array = OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel().activeFigureEditorModel.selectedFigures;
+			if(selectedFigures.length > 0)
+				selectedFigures[0].hideContextPanel();
 			PopUpManager.centerPopUp(newFile);
 			//			newFile.addEventListener(CloseEvent.CLOSE,newFileResult);
 		}
@@ -41,12 +43,7 @@ package org.act.od.impl.commands
 		{
 			var toolPanelModel:ToolPanelModel = OrDesignerModelLocator.getInstance().getToolPanelModel();
 //			Startow2Figure(toolPanelModel.selectedFigure).setPatModel(pat);
-			OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel().activeFigureEditorModel.setPatModel(pat);
-			var sfs:Array = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.selectedFigures;
-			for each (var sf:IFigure in sfs){
-				if(sf is Startow2Figure)
-					Startow2Figure(sf).setPatternModel(pat);
-			}
+			OrDesignerModelLocator.getInstance().setProjectPattern(pat);
 		}
 	}
 }

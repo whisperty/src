@@ -4,6 +4,7 @@ package org.act.od.impl.view{
 	import mx.containers.HDividedBox;
 	import mx.containers.Panel;
 	import mx.containers.VDividedBox;
+	import mx.controls.Alert;
 	import mx.effects.WipeRight;
 	import mx.events.FlexEvent;
 	import mx.managers.ToolTipManager;
@@ -173,6 +174,7 @@ package org.act.od.impl.view{
 		private function editorCreationComplete(event :FlexEvent):void{
 			//To be considered
 			OrDesignerModelLocator.getInstance().getFigureCanvasStateDomain().setFCActiveState(new SelectionState());
+//			mx.controls.Alert.show("selection state");
 			OrDesignerModelLocator.getInstance().setOrchestraDesigner(this);
 			OrDesignerModelLocator.getInstance().pms = this.pms;
 			OrDesignerModelLocator.getInstance().cos = this.cos;

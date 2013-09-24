@@ -52,6 +52,7 @@ package org.act.od.impl.figure
 		public function setPatternModel(pm:PatternModel):void
 		{
 			this.pm = pm;
+			Alert.show("set pm");
 		}
 		
 		public function isConfig():Boolean
@@ -185,14 +186,22 @@ package org.act.od.impl.figure
 			var info:XML=super.outputAllInformation();
 			info.@r=this.r;
 			info.@srcFilename = streamFile;
-			var pmXML:XML = new XML("<patterns></patterns>");
-			
-			for each(var item:AttributeModel in pm.attributes.items){
-				var att:XML = new XML("<attribute></attribute>");
-				att.@name =item.name;
-				att.@type = item.type;
-				att.@description = item.descri;
+			if(pm != null){
+				var pmXML:XML = new XML("<pattern></pattern>");
+				pmXML.@name = pm.patternName;
+				pmXML.@description = pm.descri;
+				
+				for each(var item:AttributeModel in pm.attributes.items){
+					var att:XML = new XML("<attribute></attribute>");
+					att.@name =item.name;
+					att.@type = item.type;
+					att.@description = item.descri;
+					pmXML.appendChild(att);
+				}
+				info.appendChild(pmXML);
 			}
+			
+			
 			return info;
 		}		
 		
@@ -200,8 +209,27 @@ package org.act.od.impl.figure
 			super.readInformationToFigure(info);
 			this.r=Number(info.@r);
 			this.streamFile = info.@sercFilename;
-			
+			var pmXML:XMLList = info.descendants("pattern");
+			if(pmXML.length()>0){
+				var patternName = pmXML[0].@patternName;
+				var pms:ArrayCollection = OrDesignerModelLocator.getInstance().pms;
+				for each (var tempPm:PatternModel in pms){
+					if(patternName == tempPm.patternName){
+						this.pm = tempPm;
+					}
+				}
+				if(pm == null){
+					pm = new PatternModel(pmXML[0].@patternName, 0, pmXML[0].@description);
+					var attXML:XMLList = pmXML.descendants("attribute");
+					for each (var att:XML in attXML){
+						var attModel:AttributeModel = new AttributeModel(att.@name, att.@type, att.@descri);
+						pm.addAttri(attModel);
+					}
+					pms.addItem(pm);
+				}
+			}
 		}
+		
 		override protected function OutputScale(mtp:Number):void{
 			super.OutputScale(mtp);
 			this.r=this.r/this.premultiple*this.multiple;
