@@ -19,6 +19,11 @@ package org.act.od.impl.figure
 			conditionExpr = expr;
 		}
 		
+		public function getConditionExpr():String
+		{
+			return conditionExpr;
+		}
+		
 		public function isConditionSet():Boolean
 		{
 			if(conditionExpr == null)

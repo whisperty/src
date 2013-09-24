@@ -13,6 +13,8 @@
 			import mx.managers.PopUpManager;
 			
 			import org.act.od.impl.events.LabelLinkEvent;
+			import org.act.od.impl.figure.IFigure;
+			import org.act.od.impl.figure.Selectow2Figure;
 			import org.act.od.impl.model.*;
 			
 			public var property:String;
@@ -22,9 +24,22 @@
 			[Bindable]
 			public var cards:ArrayCollection  = new ArrayCollection;
 			public function init() :void{
-				var selectedPatt:PatternModel = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.getPatModel();
+				var activeFM:FigureEditorModel = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel;
+				var selectedPatt:PatternModel = activeFM.getPatModel();
+				var conditionExpr:String;
 				for each (var newObj:Object in selectedPatt.attributes.items)
 				cards.addItem(newObj.name);
+				var sfs:Array = activeFM.selectedFigures;
+				for each (var sf:IFigure in sfs){
+					if(sf is Selectow2Figure)
+						conditionExpr = Selectow2Figure(sf).getConditionExpr();
+				}
+				if(conditionExpr != null){
+					var conditionView:Array = conditionExpr.split(' ');
+					pro.text = String(conditionView[0]);
+					op.text = String(conditionView[1]);
+					val.text = String(conditionView[2]);
+				}
 			}
 			[Bindable]
 			public var operators:ArrayCollection = new ArrayCollection(

@@ -12,6 +12,9 @@
 			import mx.events.CloseEvent;
 			import mx.managers.PopUpManager;
 			
+			import org.act.od.impl.figure.IFigure;
+			import org.act.od.impl.figure.Projectow2Figure;
+			import org.act.od.impl.figure.Selectow2Figure;
 			import org.act.od.impl.model.*;
 			private var fileName :String;
 			
@@ -31,9 +34,25 @@
 				]);
 			
 			public function init() :void{
+				var activeFM:FigureEditorModel = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel;
 				var selectedPatt:PatternModel = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.getPatModel();
-				for each (var newObj:Object in selectedPatt.attributes.items)
+				for each (var newObj:Object in selectedPatt.attributes.items){
 					cards.addItem(newObj.name);
+				}
+				var attributesName:String;
+				var sfs:Array = activeFM.selectedFigures;
+				for each (var sf:IFigure in sfs){
+					if(sf is Projectow2Figure)
+						attributesName = Projectow2Figure(sf).getAttributesIndex();
+				}
+				if(attributesName != null){
+					var conditionView:Array = attributesName.split(' ');
+					for each (var att:String in conditionView){
+						selectedCards.addItem(att);
+					}
+					selectedCards.removeItemAt(selectedCards.length-1);
+				}
+				updateMenu();
 			}
 			
 			public function setTitle(title:String):void{
