@@ -79,7 +79,7 @@
 			{
 				//Alert.show("ok!");
 				var patternColl:XML = event.result as XML;
-				//Alert.show(patternColl);
+				Alert.show(patternColl);
 				loadFromFile.PatternsintoModel(patternColl);
 				pms = loadFromFile.pms;				
 			}
