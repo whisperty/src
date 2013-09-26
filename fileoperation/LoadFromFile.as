@@ -89,7 +89,7 @@ package fileoperation
 		public function OperatorsintoModel(operatorColl:XML):void
 		{
 			var id:int = 8;
-			Alert.show(operatorColl);
+//			Alert.show(operatorColl);
 			for each(var p:XML in operatorColl..operator)
 			{
 				
