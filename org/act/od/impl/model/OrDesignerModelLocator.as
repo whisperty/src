@@ -131,8 +131,10 @@ package org.act.od.impl.model{
 //			value = val;
 			var sfs:Array = figureEditorNavigatorModel.activeFigureEditorModel.selectedFigures;
 			for each (var sf:IFigure in sfs){
-				if(sf is Selectow2Figure)
+				if(sf is Selectow2Figure){
 					Selectow2Figure(sf).setConditionExpr(conditionExpr);
+//					Alert.show("条件表达式设置成功");
+				}
 			}
 		}
 		

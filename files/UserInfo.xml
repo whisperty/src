@@ -1,0 +1,8 @@
+<LoginInfo>   
+	<Login username="mobile" password="mobile"/>   
+	<Login username="Mr.W" password="222"/>   
+	<Login username="Mr.Z" password="333"/>   
+	<Login username="Mr.C" password="444"/>   
+	<Login username="Mr.H" password="555"/>   
+	<Login username="Mr.G" password="666"/>   
+</LoginInfo> 

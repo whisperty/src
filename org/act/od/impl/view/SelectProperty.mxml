@@ -33,28 +33,28 @@
 				for each (var sf:IFigure in sfs){
 					if(sf is Selectow2Figure)
 						conditionExpr = Selectow2Figure(sf).getConditionExpr();
+//						Alert.show(conditionExpr);
 				}
+//				Alert.show("didn't get "+conditionExpr);
 				if(conditionExpr != null){
 					var conditionView:Array = conditionExpr.split(' ');
-					pro.text = String(conditionView[0]);
-					op.text = String(conditionView[1]);
+					pro.selectedIndex = cards.getItemIndex(conditionView[0]) as int;
+					op.selectedIndex = operators.getItemIndex(conditionView[1]) as int;
 					val.text = String(conditionView[2]);
 				}
 			}
 			[Bindable]
-			public var operators:ArrayCollection = new ArrayCollection(
-				[ {label:">",data:1}, //这样的数组分配方式也是第一次见:) 经过分析才学习到:这里的"data"似乎是自定义的变量名,label是组件"label"
-					{label:"<", data:2}, 
-					{label:"==", data:3} ,
-					
-					{label:"!=",data:1}, //这样的数组分配方式也是第一次见:) 经过分析才学习到:这里的"data"似乎是自定义的变量名,label是组件"label"
-				]);
+			public var operators:ArrayCollection = new ArrayCollection([">", "<", "==", "!="]);
 			
 			internal function onCancleHandle(event :MouseEvent) :void {
 				PopUpManager.removePopUp(this);
 			}
 			
 			internal function onConfirmHandle(event :MouseEvent) :void {
+				if(val.text.length == 0){
+					Alert.show("条件设置不正确");
+					return;
+				}
 				this.currentState = null;
 				dispatchEvent(new LabelLinkEvent("Ceshi"));
 				property = pro.selectedLabel;
@@ -68,11 +68,7 @@
 				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
 				PopUpManager.removePopUp(this);
 			}
-			internal function confirm():void{
-				
-				this.dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
-				PopUpManager.removePopUp(this);
-			}
+			
 			
 			public function setTitle(title:String):void{
 				this.title="Select property";

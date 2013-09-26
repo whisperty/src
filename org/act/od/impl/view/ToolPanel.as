@@ -79,8 +79,6 @@ package org.act.od.impl.view{
 				<basic name="" id="3"/>
 				<basic name="" id="4"/>
 				<basic name="" id="5"/>
-				<basic name="" id="6"/>
-				<basic name="" id="7"/>
 			</tools>;	  
 						  
 		private var isSelected:Boolean=false;

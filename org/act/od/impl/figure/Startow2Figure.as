@@ -61,7 +61,7 @@ package org.act.od.impl.figure
 				Alert.show("未设置网络模式");
 				return false;
 			}
-			return isFileSet();
+			return true;
 		}
 		
 		public function addLink(con:ConnectionFigure):void

@@ -1,6 +1,9 @@
 package org.act.od.impl.figure
 {
 	import Pattern.PatternModel;
+	
+	import mx.controls.Alert;
+
 	public class Selectow2Figure extends Operatorow2Figure
 	{
 		
@@ -26,8 +29,10 @@ package org.act.od.impl.figure
 		
 		public function isConditionSet():Boolean
 		{
-			if(conditionExpr == null)
+			if(conditionExpr == null){
+				mx.controls.Alert.show(this.figureName + "节点未设置条件");
 				return false;
+			}
 			return true;
 		}
 		

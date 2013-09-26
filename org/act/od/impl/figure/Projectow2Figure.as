@@ -2,6 +2,8 @@ package org.act.od.impl.figure
 {
 	import flash.geom.Point;
 	
+	import mx.controls.Alert;
+	
 
 	public class Projectow2Figure extends Operatorow2Figure
 	{
@@ -25,8 +27,10 @@ package org.act.od.impl.figure
 		
 		override public function isConfig():Boolean
 		{
-			if(attributesName == null)
+			if(attributesName == null){
+				mx.controls.Alert.show(this.figureName+"结点未设置条件");
 				return false;
+			}
 			return true;
 		}
 		override public function outputAllInformation():XML{

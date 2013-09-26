@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init()"
-	xmlns:v="component.*">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:v="component.*"
+				creationComplete="init()"
+				layout="absolute">
 	<mx:Style source="StreamProcess.css"/>
 	<mx:Script>   
 		<![CDATA[   
@@ -128,6 +130,7 @@
 			//added by ty 20130703
 			private function checkNetwork():Boolean
 			{
+//				Alert.show("debug");
 				var feModel:FigureEditorModel = OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel;
 				if(feModel.getPatModel() == null){
 					Alert.show("网络模式未设置！");
@@ -141,14 +144,20 @@
 				{
 					var operator:IFigure = IFigure(_root.children[i]);
 					if(operator is Operatorow2Figure){
-						if(!Operatorow2Figure(operator).isConfig())
+						if(!Operatorow2Figure(operator).isConfig()){
+//							Alert.show("operator failure");
 							return false;
+						}
 					}else if(operator is Startow2Figure){
-						if(!Startow2Figure(operator).isConfig())
+						if(!Startow2Figure(operator).isConfig()){
+//							Alert.show("start failure");
 							return false;
+						}
 					}else if(operator is LinkFigure){
-						if(!LinkFigure(operator).isConfig())
+						if(!LinkFigure(operator).isConfig()){
+//							Alert.show("link failure");
 							return false;
+						}
 					}
 					
 					/*
@@ -157,6 +166,7 @@
 						return false;
 					}*/
 				}
+				Alert.show("网络设置正确，请输入数据源文件");
 				return true;
 			}
 			
@@ -231,11 +241,10 @@
 	<mx:states>
 		<!--State1：Entered-->
 		<mx:State name="Entered">
-			<mx:RemoveChild target="{panel1}"/>
 			<mx:AddChild position="lastChild">
 				
 				<mx:VBox height="100%" width="100%">
-					<mx:ApplicationControlBar width="100%" height="37" dock="true" fontSize="15">
+					<mx:ApplicationControlBar width="100%" height="50" dock="true" fontSize="15">
 						<mx:Label text="数据流处理系统 |     欢迎您!"/>
 						<mx:Label text="{username.text}"/>
 						<mx:Spacer width="100%"/>
@@ -244,8 +253,8 @@
 						
 					</mx:ApplicationControlBar>
 					<mx:HBox width="100%" height="100%" id="hbox1">
-						<mx:VBox id="vbox1" width="130" height="100%" backgroundAlpha="0.2"
-								 backgroundColor="#FFFFFF" fontSize="20" fontWeight="bold">
+						<mx:VBox id="vbox1" width="175" height="100%" backgroundAlpha="0.2"
+								 backgroundColor="#bde0f3" fontSize="20" fontWeight="bold">
 							<mx:Button click="this.currentState='Entered'" styleName="home" width="100%"/>
 							<mx:Button click="this.currentState='Construct'" styleName="construct" width="100%"/>
 							<mx:Button click="saveNet()" styleName="save" width="100%" id="saveNetButton" enabled="false"/>
@@ -264,13 +273,12 @@
 					
 				</mx:VBox>
 			</mx:AddChild>
-			<mx:SetProperty target="{image1}" name="source" value="img/back2.jpg"/>
-			<mx:SetProperty target="{logo}" name="visible" value="false"/>
+			<!--<mx:SetProperty target="{image1}" name="source" value="img/back2.jpg"/>-->
+			<mx:SetProperty target="{loginCanvas}" name="visible" value="false"/>
 		</mx:State>
 		
 		<!--State2:Exit-->
 		<mx:State name="Exited">
-			<mx:RemoveChild target="{panel1}"/>
 			<mx:AddChild position="lastChild">
 				<mx:HBox width="247" height="34" verticalCenter="0" horizontalCenter="0">
 					<mx:Label text="您已退出系统" fontSize="23"/>
@@ -278,7 +286,6 @@
 				</mx:HBox>
 			</mx:AddChild>
 			<mx:SetProperty target="{image1}" name="source" value="img/back3.jpg"/>
-			<mx:RemoveChild target="{logo}"/>
 		</mx:State>
 		
 		<!--State3:Construct-->
@@ -310,17 +317,21 @@
 	<mx:HTTPService id="getPatterns" url="{patternUrl}" result="patternResultHandler(event)" resultFormat="e4x"/>
 	<mx:HTTPService id="getOperators" url="{operatorUrl}" result="operatorResultHandler(event)" resultFormat="e4x"/>
 	
-	<mx:Image width="100%" height="100%" scaleContent="true" autoLoad="true" maintainAspectRatio="false" id="image1" horizontalCenter="0" verticalCenter="0">
-		<mx:source>img/back1.jpg</mx:source>
+	<mx:Image width="100%" height="100%" scaleContent="true" autoLoad="true" maintainAspectRatio="false" id="image1" horizontalCenter="0" verticalCenter="-15">
+		<mx:source>img/back1_new1.jpg</mx:source>
 	</mx:Image>
-	<mx:Panel width="428" height="265" layout="absolute" fontSize="12" fontWeight="normal" horizontalCenter="0" verticalCenter="37" id="panel1" alpha="0.5" backgroundColor="#FBE5E5" cornerRadius="0">   
-		<mx:TextInput x="147" y="51" id="username" fontSize="12" text="mobile" width="180"/>   
-		<mx:TextInput x="147" y="95" id="userpwd" fontSize="12" displayAsPassword="true" text="mobile" width="180"/>   
-		<mx:Button x="160" y="154" label="登录" id="btn1" click="goLogin(event)" fontWeight="normal" fontSize="12"/>   
-		<mx:Label x="73" y="53" text="用户名：" fontSize="12" fontFamily="Arial"/>   
-		<mx:Label x="73" y="97" text="密   码：" fontSize="12"/>   
-		<mx:Button x="256" y="154" label="注册" fontSize="12" fontWeight="normal" id="btn2"/>   
-	</mx:Panel>   
-	<mx:Image id="logo" horizontalCenter="0" source="img/Logo1.png" verticalCenter="-100"/>
+	<mx:Canvas id="loginCanvas" width="700" height="450" alpha="1.0" cornerRadius="0"
+			   horizontalCenter="0" verticalCenter="60">
+		<mx:Image x="0" y="0" source="img/login1.png"/>
+		<mx:Label x="322.5" y="71" color="#FFFFFF" fontSize="15" fontWeight="bold" text="用户登录"/>
+		<mx:Label x="323.5" y="116" width="64" height="25" color="#FFFFFF" fontFamily="Arial"
+				  fontSize="14" text="用户名："/>
+		<mx:Label x="323.5" y="151" color="#FFFFFF" fontSize="12" text="密   码："/>
+		<mx:TextInput x="386" y="115" id="username" fontSize="12" text="mobile" width="132"/>
+		<mx:TextInput x="386.5" y="149" id="userpwd" fontSize="12" displayAsPassword="true" text="mobile" width="131.5"/>
+		<mx:Button id="btn1" x="326.5" y="193" width="80" label="登录" alpha="1.0"
+				   click="goLogin(event)" fontSize="12" fontWeight="normal"/>
+		<mx:Button id="btn2" x="439" y="193" width="80" label="注册" fontSize="12" fontWeight="normal"/>
+	</mx:Canvas>
 	
 </mx:Application>
