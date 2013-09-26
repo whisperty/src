@@ -86,7 +86,7 @@ package fileoperation
 				var cotemp:XML = new XML("<operator></operator>");
 				cotemp.@name = co.name;
 				cotemp.@descri = co.descri;
-				cotemp.@filename = co.filename;
+				cotemp.@jarFilename = co.filename;
 				operatorxml.appendChild(cotemp);
 				var j:int = 0;
 				var params:ArrayCollection = co.params.items;

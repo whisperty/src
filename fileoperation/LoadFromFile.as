@@ -89,10 +89,11 @@ package fileoperation
 		public function OperatorsintoModel(operatorColl:XML):void
 		{
 			var id:int = 8;
+			Alert.show(operatorColl);
 			for each(var p:XML in operatorColl..operator)
 			{
 				
-				var co:OperatorClass = new OperatorClass(String(p.@name), String(p.@descri), String(p.@filename));
+				var co:OperatorClass = new OperatorClass(String(p.@name), String(p.@descri), String(p.@jarFilename));
 				for each (var q:XML in p..para)
 				{
 					var para:AttributeModel = new AttributeModel(String(q.@name), String(q.@type), String(q.@descri));

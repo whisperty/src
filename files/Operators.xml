@@ -1,5 +1,5 @@
 <operators>
-	<operator name="TupleSplit" descri="description1">
+	<operator name="TupleSplit" descri="description1" jarFilename="TupleSplit.jar">
 		<para name="para1" descri="1st para"/>
 		<para name="para2" descri="1+1=2"/>
 		<output name="o1" descri="you need me"/>
