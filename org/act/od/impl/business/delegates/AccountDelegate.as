@@ -3,15 +3,15 @@ package  org.act.od.impl.business.delegates
 {
 	import com.adobe.cairngorm.business.ServiceLocator;
 	
+	import flash.utils.setInterval;
+	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
-	import flash.utils.setInterval;
 	import mx.rpc.IResponder;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	import mx.rpc.remoting.RemoteObject;
-	import org.act.od.impl.model.OrDesignerModelLocator;
 	
 	import org.act.od.impl.business.BpelCreator;
 	import org.act.od.impl.events.AccountEvent;
@@ -19,6 +19,7 @@ package  org.act.od.impl.business.delegates
 	import org.act.od.impl.figure.ProcessFigure;
 	import org.act.od.impl.model.*;
 	import org.act.od.impl.model.OrDesignerModelLocator;
+
 	
 	public class AccountDelegate
 	{
@@ -76,7 +77,11 @@ package  org.act.od.impl.business.delegates
 			
 		}
 		
-	
+		public function showResult(e:ResultEvent):void{
+			var tmp:ArrayCollection = e.result as ArrayCollection;
+			Alert.show("tmp=" + tmp);
+		}
+		
 		private function getTime2():void {
 			
 			
@@ -97,14 +102,15 @@ package  org.act.od.impl.business.delegates
 		public function loadPhotos( fileID:String,outputID:String,options:Object):void
 		{
 		
-			/*
-			 _object.init(options,fileID,outputID);
+		
+			/* _object.init(options,fileID,outputID);
 			 _object.SelectNetwork1();
-			 setInterval(getTime, 10000); // 1 second
+			 setInterval(getTime, 10000); */// 1 second
 		//	 setInterval(getTime2, 100); // 1 second
-			*/
 			
-			 var _network:RemoteObject;
+			
+		
+		     var _network:RemoteObject;
 			 _network = (ServiceLocator.getInstance().getRemoteObject("network"));
 			 
 			 var bpelCreator :BpelCreator = new BpelCreator();
@@ -113,6 +119,10 @@ package  org.act.od.impl.business.delegates
 			 newBPELText = bpelCreator.outputInfo(ProcessFigure(orDesModelLoc.getFigureEditorNavigatorModel().activeFigureEditorModel.rootFigure) );
 			 
 			 _network.init(newBPELText);
+			
+			 //_network.get();
+			// Alert("get");
+			// _network.addEventListener(ResultEvent.RESULT, showResult);
 		}
 	}
 }

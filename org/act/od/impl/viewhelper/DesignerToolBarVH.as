@@ -269,19 +269,6 @@ package org.act.od.impl.viewhelper
 			
 			var delegate:AccountDelegate = new AccountDelegate();
 			
-			//begin of lyy
-			var _network:RemoteObject;
-			_network = (ServiceLocator.getInstance().getRemoteObject("network"));
-			
-			var bpelCreator :BpelCreator = new BpelCreator();
-			var newBPELText :String;
-			var orDesModelLoc :OrDesignerModelLocator = OrDesignerModelLocator.getInstance();
-			newBPELText = bpelCreator.outputInfo(ProcessFigure(orDesModelLoc.getFigureEditorNavigatorModel().activeFigureEditorModel.rootFigure) );
-			
-			_network.init(newBPELText);
-			//Alert.show(newBPELText);
-			//end of lyy
-			
 			delegate.loadPhotos(inputFileID, outputFileID, filterOptions);
 			OrDesignerModelLocator.getInstance().popProgressBar();
 			OrDesignerModelLocator.getInstance().getFigureCanvasStateDomain().setFCActiveState(new CheckState());

@@ -5,13 +5,13 @@
 		<output name="o1" descri="you need me"/>
 		<output name="o2" descri="the more the better"/>
 	</operator>
-	<operator name="GetPhoneNum" descri="description2">
+	<operator name="GetPhoneNum" descri="description2" jarFilename="users.jar">
 		<output name="o11" descri="one is enough"/>
 	</operator>
-	<operator name="GetTime" descri="descri3">
+	<operator name="GetTime" descri="descri3" jarFilename="users.jar">
 	</operator>
-	<operator name="GetLacAndCi" descri="descri4">
+	<operator name="GetLacAndCi" descri="descri4" jarFilename="users.jar">
 	</operator>
-	<operator name="TupleMerge" descri="descri5">
+	<operator name="TupleMerge" descri="descri5" jarFilename="users.jar">
 	</operator>
 </operators>

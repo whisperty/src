@@ -4,6 +4,7 @@ package org.act.od.impl.view
 	import mx.containers.Box;
 	import mx.containers.TabNavigator;
 	import mx.core.UIComponent;
+	import Pattern.*;
 
 	/**
 	 * The view for figure's attribute.
@@ -57,6 +58,10 @@ package org.act.od.impl.view
 			tabNavigator.addChildAt(dataBox,1);
 			dataBox.enabled = false;
 		}
+		public function setDataSourceView2(patModel: PatternModel):void{
+			figureDataSourceView.setDataGrid2(patModel);
+		}
+		
 		public function setDataSourceView():void{
 			figureDataSourceView.setDataGrid();
 		}

@@ -22,6 +22,16 @@
 			private var _textField:TextField;
 			public var myColumns:Array;
 			public var colMinWidth:int;
+			public function setDataGrid2(patMod1:PatternModel):void
+			{
+				datasrcViewModel = OrDesignerModelLocator.getInstance().getDataSourceViewModel();
+				patMod = patMod1;//OrDesignerModelLocator.getInstance().figureEditorNavigatorModel.activeFigureEditorModel.getPatModel();
+				readArr = datasrcViewModel.datasource;
+				_textField = new TextField();
+				myColumns = new Array();
+				this.newGrid();    
+			}
+			
 			public function setDataGrid():void
 			{
 				datasrcViewModel = OrDesignerModelLocator.getInstance().getDataSourceViewModel();
@@ -31,6 +41,7 @@
 				myColumns = new Array();
 				this.newGrid();    
 			}
+			
 			public function newGrid():void
 			{
 				//Alert.show("newGrid");
@@ -60,7 +71,14 @@
 				//Alert.show("why");
 				this.columns = myColumns;
 				this.dataProvider = datasrcViewModel.datasource;
-				
+				/*Alert.show(dataProvider.toString());
+				if(datasrcViewModel.datasource.length > 0)
+				{
+					Alert.show(datasrcViewModel.datasource.getItemAt(0).toString());
+					Alert.show(ArrayCollection(datasrcViewModel.datasource.getItemAt(0)).getItemAt(0).toString());
+					Alert.show(ArrayCollection(datasrcViewModel.datasource.getItemAt(0)).getItemAt(1).toString());
+				}*/
+				//Alert.show(datasrcViewModel.datasource.getItemAt(0).toString());
 			}
 			public function autoSizeColWidth(colLabel:String):int
 			{ 
