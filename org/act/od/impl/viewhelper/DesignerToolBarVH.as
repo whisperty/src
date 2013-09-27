@@ -275,11 +275,14 @@ package org.act.od.impl.viewhelper
 			OrDesignerModelLocator.getInstance().setSaveButton();
 		}
 		
-		public function saveResult():void
+		public function saveResult(event:MouseEvent):void
 		{
-			var downloadURL:URLRequest = new URLRequest(Application.application.downloadURL);
+			var resultFileName:String = "result1.txt";
+			var resultData:String ="right\njj";
+/*			var downloadURL:URLRequest = new URLRequest(Application.application.downloadURL);
 			file.addEventListener(Event.COMPLETE, downloadCompleteHandler);
-			file.download(downloadURL);
+			file.download(downloadURL);*/
+			file.save(resultData, resultFileName);
 		}
 		
 		public function downloadCompleteHandler():void

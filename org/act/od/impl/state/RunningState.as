@@ -84,7 +84,7 @@ package org.act.od.impl.state
 			}
 		}
 		protected function importDataStreamHandler():void{
-			_importedFile = new FileReference;
+			_importedFile = new FileReference();
 			_importedFile.addEventListener(Event.SELECT, importedFile_selectHandler);
 			_importedFile.browse([new FileFilter("TXT", "*.txt")]);
 //			_importedFile.browse();
