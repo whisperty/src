@@ -9,6 +9,7 @@ package org.act.od.impl.viewhelper
 	import flash.net.FileReference;
 	import flash.net.URLRequest;
 	import flash.utils.setInterval;
+	import flash.utils.setTimeout;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.Alert;
@@ -55,9 +56,10 @@ package org.act.od.impl.viewhelper
         private var fileNavigatorModel:FileNavigatorViewModel;
 		private var dsViewModel:DataSourceViewModel;
 		private var arrToSave:ArrayCollection;
-		
+
 		//add by lbw
 		private var saveFile:SaveToFile;
+		
 		[Bindable]
 		public var filterOptions:Object = new Object();
 		
@@ -275,14 +277,12 @@ package org.act.od.impl.viewhelper
 			OrDesignerModelLocator.getInstance().setSaveButton();
 		}
 		
+
+		
 		public function saveResult(event:MouseEvent):void
 		{
 			var resultFileName:String = "result1.txt";
-			var resultData:String ="right\njj";
-/*			var downloadURL:URLRequest = new URLRequest(Application.application.downloadURL);
-			file.addEventListener(Event.COMPLETE, downloadCompleteHandler);
-			file.download(downloadURL);*/
-			file.save(resultData, resultFileName);
+			file.save(OrDesignerModelLocator.getInstance().resultData, resultFileName);
 		}
 		
 		public function downloadCompleteHandler():void

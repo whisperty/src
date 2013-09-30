@@ -44,6 +44,8 @@ package org.act.od.impl.model{
 		[Bindable]
 		private var dataSourceViewModel :DataSourceViewModel;
 		
+		public var resultData:String ="";
+		
 		[Bindable]
 		private var attributeViewModel :AttributeViewModel;
 //		public var property:String;

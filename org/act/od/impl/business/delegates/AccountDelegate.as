@@ -32,6 +32,8 @@ package  org.act.od.impl.business.delegates
 		public var filterOptions:Object = new Object();
 		[Bindable]
 		private var accounts:ArrayCollection =new ArrayCollection();	
+		private var _network:RemoteObject = (ServiceLocator.getInstance().getRemoteObject("network"));
+		
 		public function AccountDelegate()
 		{
 		
@@ -94,9 +96,15 @@ package  org.act.od.impl.business.delegates
 		private function getTime():void {
 	
 			_object.getNext1000();
-			_object.addEventListener(ResultEvent.RESULT, listResult)
+			_object.addEventListener(ResultEvent.RESULT, listResult);
 				
 		
+		}
+		
+		public function getFinalDataForSaveFile(event:ResultEvent):void
+		{
+			_network.removeEventListener(ResultEvent.RESULT, getFinalDataForSaveFile);
+			OrDesignerModelLocator.getInstance().resultData = event.result as String;
 		}
 		
 		public function loadPhotos( fileID:String,outputID:String,options:Object):void
@@ -110,8 +118,7 @@ package  org.act.od.impl.business.delegates
 			
 			
 		
-		     var _network:RemoteObject;
-			 _network = (ServiceLocator.getInstance().getRemoteObject("network"));
+
 			 
 			 var bpelCreator :BpelCreator = new BpelCreator();
 			 var newBPELText :String;
@@ -119,7 +126,8 @@ package  org.act.od.impl.business.delegates
 			 newBPELText = bpelCreator.outputInfo(ProcessFigure(orDesModelLoc.getFigureEditorNavigatorModel().activeFigureEditorModel.rootFigure) );
 			 
 			 _network.init(newBPELText);
-			
+			 _network.addEventListener(ResultEvent.RESULT, getFinalDataForSaveFile);
+			 
 			 //_network.get();
 			// Alert("get");
 			// _network.addEventListener(ResultEvent.RESULT, showResult);
