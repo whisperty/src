@@ -51,7 +51,7 @@ package fileoperation
 			var feModel :FigureEditorModel = new FigureEditorModel(filename);
 			feModel.setxml(data);
 			new FigureEditorNavigatorAppEvent(FigureEditorNavigatorAppEvent.ACTIVE_FIGUREEDITOR_PAGE,
-				{ fileID:"File-9999", filePath:"Examples/examples/Example.xml", 
+				{ fileID:filename, filePath:"Examples/examples/Example.xml", 
 					fileName:filename, figureEditorModel:feModel }
 			).dispatch();
 			var feNavVH :FigureEditorNavigatorVH = 

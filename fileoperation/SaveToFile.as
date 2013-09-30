@@ -11,6 +11,7 @@ package fileoperation
 	import mx.controls.Alert;
 	
 	import org.act.od.impl.business.BpelCreator;
+	import org.act.od.impl.business.delegates.AccountDelegate;
 	import org.act.od.impl.figure.ProcessFigure;
 	import org.act.od.impl.model.OrDesignerModelLocator;
 	
@@ -74,7 +75,10 @@ package fileoperation
 				}
 				patternxml.appendChild(pa);
 			}
-			f.save(patternxml, patternFileName);
+			var delegate:AccountDelegate = new AccountDelegate();
+			delegate.savePatterns(String(patternxml));
+//			f.save(patternxml, patternFileName);
+			
 		}
 		public function saveOperator(data:ArrayCollection):void
 		{
@@ -110,7 +114,9 @@ package fileoperation
 					cotemp.appendChild(output);
 				}
 			}
-			f.save(operatorxml, operatorFileName);
+//			f.save(operatorxml, operatorFileName);
+			var delegate:AccountDelegate = new AccountDelegate();
+			delegate.saveOperators(String(operatorxml));
 		}
 	}
 }

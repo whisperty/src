@@ -49,7 +49,7 @@
 				co.name = operatorName.text;
 				co.descri = operatorDescri.text;
 				co.filename = filename.text;
-				co.functionName = functionName.text;
+//				co.functionName = functionName.text;
 				var tempID:int;
 				if(cos.length != 0)
 				{
@@ -77,14 +77,15 @@
 				try
 				{
 					file.upload(request);
-					Alert.show("恭喜你，上传成功");
+					filename.text = file.name;
+//					Alert.show("恭喜你，上传成功");
 				}
 				catch (error:Error)
 				{
 					Alert.show("上传失败");
 					trace("上传失败");
 				}
-				filename.text = file.name;
+				
 			}
 		]]>
 	</mx:Script>
@@ -155,9 +156,6 @@
 				<mx:FormItem label="可执行文件">
 					<mx:Label id="filename"/>
 					<mx:Button label="修改可执行代码" click="changeCodeFile(event)"/>
-				</mx:FormItem>
-				<mx:FormItem label="可执行方法名">
-					<mx:TextInput id="functionName"/>
 				</mx:FormItem>
 			</mx:Form>
 		</mx:VBox>

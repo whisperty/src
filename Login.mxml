@@ -41,7 +41,7 @@
 			import org.act.od.impl.model.OrDesignerModelLocator;
 
 			[Bindable]
-			public var serverAddr:String = "http://localhost:8080/fcl/streamnetwork-debug/files/";
+			public var serverAddr:String = "http://localhost:8080/fcl/streamnetwork-debug/settingfiles/";
 			[Bindable]
 			public var uploadURL:String = "http://localhost:8080/fcl/FileUploaded";
 			[Bindable]
@@ -60,8 +60,8 @@
 			private var saveFile:SaveToFile = new SaveToFile();
 			private var loadFromFile:LoadFromFile = new LoadFromFile();
 			private var xmlFilter:FileFilter = new FileFilter("XMLs(*.xml)", "*.xml");
-			private var file:FileReferenceList = new FileReferenceList();
-			private var f:FileReference;
+//			private var file:FileReferenceList = new FileReferenceList();
+			private var f:FileReference = new FileReference();
 			
 			[Bindable]
 			public var pms:ArrayCollection;
@@ -173,30 +173,16 @@
 			
 			private function showWindow():void
 			{
-				file.browse([xmlFilter]); 
-				file.addEventListener(Event.SELECT, onFileSelect); 
-				file.addEventListener(ProgressEvent.PROGRESS, progressHandle); 
-				file.addEventListener(Event.COMPLETE, completeHandle); 
+				f.browse([xmlFilter]); 
+				f.addEventListener(Event.SELECT, onFileSelect); 
+//				file.addEventListener(ProgressEvent.PROGRESS, progressHandle); 
+				
 			}
 			private function onFileSelect(event:Event):void
 			{
-				for(var i:int=0;i<file.fileList.length;i++){ 
-					f = FileReference(file.fileList[i]);  
-					//returnedName.text=f.name;
-					
-					f.load();
-					f.addEventListener(ProgressEvent.PROGRESS, progressHandle); 
-					f.addEventListener(Event.COMPLETE, completeHandle); 
-					
-				}
-				
+				f.load();
+				f.addEventListener(Event.COMPLETE, completeHandle); 
 			}
-			private function progressHandle(event : ProgressEvent) : void { 
-				/*progressLabel.text = "complete " + event.bytesLoaded + " bytes"; 
-				var fileUploadPercent : uint = event.bytesLoaded / event.bytesTotal * 100; 
-				uploadProgressBar.setProgress(fileUploadPercent, 100); 
-				uploadProgressBar.label = "Complete " + fileUploadPercent + "%"; */
-			} 
 			
 			private function completeHandle(event : Event) : void {
 				cur = true;

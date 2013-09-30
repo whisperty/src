@@ -20,6 +20,8 @@
 	<mx:RemoteObject id="network" destination="network">
 	</mx:RemoteObject>
 	
+	<mx:RemoteObject id="saveSettings" destination="saveSettings">
+	</mx:RemoteObject>
 
 
 	

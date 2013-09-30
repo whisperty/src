@@ -23,23 +23,20 @@
 			private var outputs:ArrayCollection;
 			[Bindable]
 			private var currentOperator:OperatorClass;
-			private var tempOp:OperatorClass = new OperatorClass();
 			private var currentIndex:int;
 			private var vResult:ValidationResultEvent;
 			private var file:FileReference = new FileReference();
 			//			private var loadFromFile:LoadFromFile = new LoadFromFile();
 			private function populateForm(event:Event):void
 			{
-				currentIndex = event.target.selectedIndex;
 				currentOperator = event.target.selectedItem;
 				operatorName.text = currentOperator.name;
 				operatorDescri.text = currentOperator.descri;
 				filename.text = currentOperator.filename;
-				functionName.text = currentOperator.functionName;
+//				functionName.text = currentOperator.functionName;
 				
 				params = currentOperator.params.items;
 //				outputs = currentOperator.outputs.items;
-				tempOp.getReplication(currentOperator);
 			}
 			private function saveAllHandler(event:MouseEvent):void
 			{
@@ -73,20 +70,21 @@
 				try
 				{
 					file.upload(request);
-					Alert.show("恭喜你，上传成功");
+					filename.text = file.name;
+//					Alert.show("恭喜你，上传成功");
 				}
 				catch (error:Error)
 				{
 					Alert.show("上传失败");
 					trace("上传失败");
 				}
-				filename.text = file.name;
-				tempOp.filename = file.name;
+				
+				
 			}
 			
 			public function removePara(item:AttributeModel):void
 			{
-				tempOp.removePara(item);
+				currentOperator.removePara(item);
 			}
 /*			public function removeOutput(item:AttributeModel):void
 			{
@@ -98,24 +96,15 @@
 				if(vResult.type != ValidationResultEvent.VALID)
 					return;
 				var para:AttributeModel = new AttributeModel(paraName.text, String(paraType.selectedItem), paraDescri.text);
-				tempOp.addPara(para);
+				currentOperator.addPara(para);
 			}
 			
-			private function doOperatorSave(event:MouseEvent):void
+/*			private function doOperatorSave(event:MouseEvent):void
 			{
-				tempOp.functionName = functionName.text;
-				currentOperator.getReplication(tempOp);
-			}
+				currentOperator.functionName = functionName.text;
+			}*/
 			
-			private function doOperatorReset(event:MouseEvent):void
-			{
-				operatorName.text = currentOperator.name;
-				operatorDescri.text = currentOperator.descri;
-				filename.text = currentOperator.filename;
-				functionName.text = currentOperator.functionName;
-				params = currentOperator.params.items;
-				tempOp.getReplication(currentOperator);
-			}
+			
 /*			private function addOutputHandler(event:MouseEvent):void
 			{
 				vResult = outputNameV.validate();
@@ -146,8 +135,6 @@
 				<mx:FormItem label="算子操作">
 					<mx:HBox>
 						<mx:Button label="删除算子" click="doPatternDelete(event)"/>
-						<mx:Button label="保存修改" click="doOperatorSave(event)"/>
-						<mx:Button label="还原修改" click="doOperatorReset(event)"/>
 					</mx:HBox>
 					
 				</mx:FormItem>
@@ -206,9 +193,6 @@
 				<mx:FormItem label="可执行文件">
 					<mx:Label id="filename"/>
 					<mx:Button label="修改可执行代码" click="changeCodeFile(event)"/>
-				</mx:FormItem>
-				<mx:FormItem label="可执行方法名">
-					<mx:TextInput id="functionName"/>
 				</mx:FormItem>
 			</mx:Form>
 		</mx:VBox>

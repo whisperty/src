@@ -124,5 +124,21 @@ package  org.act.od.impl.business.delegates
 			// Alert("get");
 			// _network.addEventListener(ResultEvent.RESULT, showResult);
 		}
+		
+		public function savePatterns(patterns:String):void
+		{
+			
+			var _saveSettings:RemoteObject;
+			_saveSettings = (ServiceLocator.getInstance().getRemoteObject("saveSettings"));
+			_saveSettings.savePatterns(patterns);
+//			Alert.show("get back class successfully");
+		}
+		
+		public function saveOperators(operators:String):void
+		{
+			var _saveSettings:RemoteObject;
+			_saveSettings = (ServiceLocator.getInstance().getRemoteObject("saveSettings"));
+			_saveSettings.saveOperators(operators);
+		}
 	}
 }
