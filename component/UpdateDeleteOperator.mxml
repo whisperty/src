@@ -71,6 +71,7 @@
 				{
 					file.upload(request);
 					filename.text = file.name;
+					currentOperator.filename = file.name;
 //					Alert.show("恭喜你，上传成功");
 				}
 				catch (error:Error)
