@@ -36,6 +36,7 @@
 			import org.act.od.impl.business.BpelCreator;
 			import org.act.od.impl.events.AccountEvent;
 			import org.act.od.impl.figure.*;
+			import org.act.od.impl.state.*;
 			import org.act.od.impl.figure.ProcessFigure;
 			import org.act.od.impl.model.*;
 			import org.act.od.impl.model.OrDesignerModelLocator;
@@ -200,6 +201,12 @@
 				saveFile.serverAddr = serverAddr;
 				saveFile.saveNet();
 			}
+			
+			private function state2Selection():void
+			{
+				if(OrDesignerModelLocator.getInstance().getFigureCanvasStateDomain())
+					OrDesignerModelLocator.getInstance().getFigureCanvasStateDomain().setFCActiveState(new SelectionState());
+			}
 		
 			private function debug():void
 			{
@@ -248,7 +255,7 @@
 						<mx:VBox id="vbox1" width="175" height="100%" backgroundAlpha="0.2"
 								 backgroundColor="#bde0f3" fontSize="20" fontWeight="bold">
 							<mx:Button click="this.currentState='Entered'" styleName="home" width="100%"/>
-							<mx:Button click="this.currentState='Construct'" styleName="construct" width="100%"/>
+							<mx:Button click="this.currentState='Construct';state2Selection()" styleName="construct" width="100%"/>
 							<mx:Button click="saveNet()" styleName="save" width="100%" id="saveNetButton" enabled="false"/>
 							<mx:Button id="button1" width="100%" click="this.currentState='Construct';showWindow();" styleName="load"/>
 							<mx:Button click="runNet()" styleName="run" width="100%" id="runNetButton" enabled="false"/>
@@ -284,7 +291,7 @@
 		<mx:State name="Construct" basedOn="Entered">
 			<mx:RemoveChild target="{homepage}"/>
 			<mx:AddChild relativeTo="{hbox1}" position="lastChild">
-				<v:OrDesinger id="designer" cur="{cur}" pms="{pms}" cos="{cos}">
+				<v:OrDesinger id="designer" pms="{pms}" cos="{cos}">
 				</v:OrDesinger>
 			</mx:AddChild>
 			<mx:SetProperty target="{saveNetButton}" name="enabled" value="true"/>

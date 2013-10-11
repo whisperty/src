@@ -13,7 +13,8 @@
 			
 			import org.act.od.impl.events.*;
 			import org.act.od.impl.model.*;
-			public var cur:Boolean;
+			import org.act.od.impl.state.*;
+//			public var cur:Boolean;
 			[Bindable]
 			public var pms:ArrayCollection; 
 			[Bindable]
@@ -23,8 +24,9 @@
 				// TODO Auto-generated method stub
 				var feNavModel :FigureEditorNavigatorModel = 
 					OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel();
-				if(cur == false)
+				if(!feNavModel.activeFigureEditorModel)
 					var feModel :FigureEditorModel = feNavModel.addFigureEditorModel("File-9999");
+				
 				
 				//2. active the figureEditorpage
 			 new FigureEditorNavigatorAppEvent(FigureEditorNavigatorAppEvent.ACTIVE_FIGUREEDITOR_PAGE,
