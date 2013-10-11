@@ -148,20 +148,7 @@ package org.act.od.impl.view{
 			var oy :Number = FigureCanvas(event.currentTarget).mouseY;
 			var point :Point = new Point(ox+this.horizontalScrollPosition,oy+this.verticalScrollPosition);
 			
-			var tempFigure :IFigure = this._editorModel.rootFigure.getupperfigure(point.x,point.y);
-			if(tempFigure is Selectow2Figure) {
-				var figureEditorVH :FigureEditorVH = 
-					ViewLocator.getInstance().getViewHelper(FigureEditorVH.getViewHelperKey(this._editorModel.fileID)) as FigureEditorVH;
-//				Selectow2Figure(tempFigure).filePath = figureEditorVH.filePath;
-				new FigureCanvasAppEvent(FigureCanvasAppEvent.CREATE_NEW_SELECT, 
-					{selectow2Figure:tempFigure}).dispatch();
-			}
-			if(tempFigure is Projectow2Figure){
-				new FigureCanvasAppEvent(FigureCanvasAppEvent.EDIT_PROJECT_PARAMETER, {Projectow2Figure:tempFigure}).dispatch();
-			
-			}else if(tempFigure is Startow2Figure){
-				new FigureCanvasAppEvent(FigureCanvasAppEvent.EDIT_PROJECT_PATTERN, {startow2Figure:tempFigure}).dispatch();
-			}
+			orDesModelLoc.getFigureCanvasStateDomain().mouseDoubleClick(point, event);
 
 		}
 		//added by zjn

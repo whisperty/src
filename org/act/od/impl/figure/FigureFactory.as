@@ -52,7 +52,7 @@ package org.act.od.impl.figure
 			dic[name] = id;
 			
 			id = 103;
-			name = "Join";
+			name = "Combine";
 			dic[id] = name;
 			dic[name] = id;
 			

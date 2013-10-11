@@ -2,7 +2,6 @@ package org.act.od.impl.state{
 
 	
 	import Pattern.PatternModel;
-	import org.act.od.impl.events.FigureCanvasAppEvent;
 	
 	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
@@ -14,8 +13,9 @@ package org.act.od.impl.state{
 	import mx.managers.PopUpManager;
 	
 	import org.act.od.framework.view.ViewLocator;
+	import org.act.od.impl.events.FigureCanvasAppEvent;
 	import org.act.od.impl.figure.Endow2Figure;
-	import org.act.od.impl.figure.Startow2Figure;
+	import org.act.od.impl.figure.*;
 	import org.act.od.impl.model.FigureEditorNavigatorModel;
 	import org.act.od.impl.model.OrDesignerModelLocator;
 	import org.act.od.impl.model.ToolPanelModel;
@@ -177,7 +177,6 @@ package org.act.od.impl.state{
 			toolPanelModel.selectedFigure.autosetsize(x,y,0);
 			toolPanelModel.selectedFigure.updateDraw();
 		}
-		
 		
 	}
 }

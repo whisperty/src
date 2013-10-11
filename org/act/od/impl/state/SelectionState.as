@@ -246,5 +246,20 @@ package org.act.od.impl.state
 			
 		}
 		
+		//ty 2013.10.11
+		override public function mouseDoubleClick(point:Point, event:MouseEvent):void
+		{
+			var tempFigure :IFigure = OrDesignerModelLocator.getInstance().getFigureEditorNavigatorModel().activeFigureEditorModel.rootFigure.getupperfigure(point.x, point.y);
+			if(tempFigure is Selectow2Figure) {
+				new FigureCanvasAppEvent(FigureCanvasAppEvent.CREATE_NEW_SELECT, {selectow2Figure:tempFigure}).dispatch();
+			}
+			if(tempFigure is Projectow2Figure){
+				new FigureCanvasAppEvent(FigureCanvasAppEvent.EDIT_PROJECT_PARAMETER, {Projectow2Figure:tempFigure}).dispatch();
+				
+			}else if(tempFigure is Startow2Figure){
+				new FigureCanvasAppEvent(FigureCanvasAppEvent.EDIT_PROJECT_PATTERN, {startow2Figure:tempFigure}).dispatch();
+			}
+		}
+		
 	}
 }
