@@ -137,8 +137,8 @@ package org.act.od.impl.view{
 					item.@name = labelText;
 				}
 				else if(item.@id == "3") {
-					labelText = localizator.getText('toolpanel.basic.activity');//join
-					item.@name = labelText;
+//					labelText = localizator.getText('toolpanel.basic.activity');//join
+					item.@name = "Combine";
 				}
 				else if(item.@id == "4") {
 					labelText = localizator.getText('toolpanel.basic.switch');//project

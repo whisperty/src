@@ -9,7 +9,7 @@ package org.act.od.impl.figure
 		{
 			super();
 			drawid=103;
-			this.setpicture(FigureFactory.join);
+			this.setpicture(FigureFactory.combine);
 		}
 		
 		override public function isConfig():Boolean

@@ -22,8 +22,8 @@ package org.act.od.impl.figure
         public static var link :Class;
         
         [Bindable]
-        [Embed(source="../assets/icon/tool/join.gif")]
-        public static var join :Class;
+        [Embed(source="../assets/icon/tool/combine.gif")]
+        public static var combine :Class;
         
         [Bindable]
         [Embed(source="../assets/icon/tool/select.jpg")]

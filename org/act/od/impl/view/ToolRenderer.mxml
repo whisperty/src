@@ -20,7 +20,7 @@
         public var link :Class = Resource.getInstance().icon_tool_link;
         
         [Bindable]
-        public var activity :Class = Resource.getInstance().icon_tool_join;
+        public var activity :Class = Resource.getInstance().icon_tool_combine;
         
         [Bindable]
         public var subProcess :Class = Resource.getInstance().icon_tool_select;

@@ -35,8 +35,8 @@ package org.act.od.impl.other
 		 * The source for "activity" image data binding.
 		 */
         [Bindable]
-        [Embed(source="../assets/icon/tool/join.gif")]
-        public var icon_tool_join :Class;
+        [Embed(source="../assets/icon/tool/combine.gif")]
+        public var icon_tool_combine :Class;
 		/**
 		 * The source for "email" image data binding.
 		 */
